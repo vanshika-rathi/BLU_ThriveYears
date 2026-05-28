@@ -1,0 +1,12 @@
+{
+  "name": "thrive-years",
+  "version": "1.0.0",
+  "description": "Thrive Years Calculator by ThriveWell",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
