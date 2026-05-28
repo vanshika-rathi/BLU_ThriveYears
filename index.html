@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrive Years · ThriveWell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6f7;
+  --white:#ffffff;
+  --teal:#2ab5a5;
+  --teal-light:#e8f7f5;
+  --teal-mid:#c5ebe7;
+  --navy:#1a2e3a;
+  --text:#1a2e3a;
+  --muted:#8a9baa;
+  --border:#e2e8ed;
+  --header-h:64px;
+}
+html,body{min-height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+header{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border)}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-badge{width:38px;height:38px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;letter-spacing:.05em}
+.logo-name{font-size:16px;color:var(--navy);font-weight:400}
+.logo-name span{color:var(--teal);font-weight:600}
+.hdr-tag{font-size:12px;font-weight:500;color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-mid);padding:4px 12px;border-radius:20px}
+.page{max-width:960px;margin:0 auto;padding:36px 32px 60px}
+
+/* PROGRESS BAR */
+.thrive-progress-wrap{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:28px}
+.thrive-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.thrive-progress-label{font-size:11px;font-weight:600;color:var(--navy);letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
+.thrive-progress-pct{font-size:13px;font-weight:700;color:var(--teal)}
+.thrive-progress-track{height:10px;background:var(--teal-light);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.thrive-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1a9e90,var(--teal),#4fd1c4);border-radius:99px;transition:width 1.1s cubic-bezier(.4,0,.2,1);position:relative}
+.thrive-progress-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:18px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35));border-radius:99px}
+.thrive-progress-milestones{display:flex;justify-content:space-between;position:relative;padding:0 2px}
+.thrive-progress-milestones::before{content:'';position:absolute;top:6px;left:2px;right:2px;height:1px;background:var(--border);z-index:0}
+.tpm{display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1}
+.tpm-dot{width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--border);transition:all .5s}
+.tpm-dot.reached{background:var(--teal);border-color:var(--teal)}
+.tpm-lbl{font-size:9px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.thrive-progress-msg{font-size:12px;color:var(--muted);font-style:italic;margin-top:10px;text-align:center;min-height:16px}
+
+/* INTRO */
+.thrive-intro{margin-bottom:24px}
+.thrive-intro h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.thrive-intro h1 em{font-style:italic;color:var(--teal)}
+.thrive-intro p{font-size:13px;color:var(--muted);line-height:1.65}
+
+/* LAYOUT */
+.thrive-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.wcard{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px}
+.wcard-lbl{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.wcard-lbl span{display:inline-block;width:14px;height:1.5px;background:var(--teal)}
+.body-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.flbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.finput{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:12px 14px;font-size:14px;color:var(--navy);font-family:inherit;width:100%;outline:none;transition:border-color .15s}
+.finput:focus{border-color:var(--teal)}
+.finput.after{border-color:var(--teal-mid);background:var(--teal-light);color:var(--teal)}
+.finput.after:focus{border-color:var(--teal)}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.ba-hdrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.ba-h{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:7px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.ba-h.bef{color:var(--muted);background:var(--bg);border:1px solid var(--border)}
+.ba-h.aft{color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-mid)}
+.ba-dot-grey{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.ba-dot-teal{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.mrow{margin-bottom:14px}
+.mlbl{font-size:11px;font-weight:600;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.calc-btn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity .15s}
+.calc-btn:hover{opacity:.88}
+.thrive-hero{background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:14px}
+.th-eyebrow{font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.th-num{font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:var(--teal);line-height:1}
+.th-unit{font-size:20px;font-weight:500;color:var(--teal);margin-left:4px;opacity:.7}
+.th-sub{margin-top:10px;font-size:12px;color:#5a8090}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.mtile{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.mtile .val{font-size:22px;font-weight:700;color:var(--teal);margin-bottom:4px}
+.mtile .val.navy{color:var(--navy)}
+.mtile .lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
+.mtile.full{grid-column:1/-1}
+.bann{text-align:center;padding:13px 16px;border-radius:11px;font-size:12px;font-weight:500;line-height:1.5;background:var(--teal-light);border:1px solid var(--teal-mid);color:var(--teal)}
+.info-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);opacity:.6;padding:2px 4px;margin-top:4px;font-family:inherit;transition:opacity .15s}
+.info-btn:hover{opacity:1}
+.toast{position:fixed;bottom:28px;right:28px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:200;transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+@media(max-width:680px){
+  .thrive-layout{grid-template-columns:1fr}
+  .page{padding:24px 16px 48px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-row">
+    <div class="logo-badge">BLU</div>
+    <span class="logo-name">by <span>ThriveWell</span></span>
+  </div>
+  <span class="hdr-tag">Longevity Nutrition · Fort Lauderdale</span>
+</header>
+
+<div class="page">
+
+  <!-- PROGRESS BAR -->
+  <div class="thrive-progress-wrap">
+    <div class="thrive-progress-top">
+      <div class="thrive-progress-label"><span class="dot-pulse"></span>BLU Longevity Journey</div>
+      <div class="thrive-progress-pct" id="progress-pct">—</div>
+    </div>
+    <div class="thrive-progress-track">
+      <div class="thrive-progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="thrive-progress-milestones">
+      <div class="tpm"><div class="tpm-dot" id="ms-0"></div><div class="tpm-lbl">Starting</div></div>
+      <div class="tpm"><div class="tpm-dot" id="ms-1"></div><div class="tpm-lbl">Improving</div></div>
+      <div class="tpm"><div class="tpm-dot" id="ms-2"></div><div class="tpm-lbl">Thriving</div></div>
+      <div class="tpm"><div class="tpm-dot" id="ms-3"></div><div class="tpm-lbl">Flourishing</div></div>
+      <div class="tpm"><div class="tpm-dot" id="ms-4"></div><div class="tpm-lbl">Keep going ✦</div></div>
+    </div>
+    <div class="thrive-progress-msg" id="progress-msg">Calculate your Thrive Years to see your progress.</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="thrive-intro">
+    <h1>Calculate Your <em>Thrive Years</em></h1>
+    <p>Enter your before &amp; after fitness metrics to see your mortality risk reduction and the healthy years you're building.</p>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="thrive-layout">
+    <div class="wcard">
+      <div class="wcard-lbl"><span></span>Your Fitness Profile</div>
+      <div class="body-grid">
+        <div><div class="flbl">Body Weight (lbs)</div><input class="finput" id="t-weight" type="number" placeholder="e.g. 175" min="80" max="400"></div>
+        <div><div class="flbl">Current Age</div><input class="finput" id="t-age" type="number" placeholder="e.g. 45" min="18" max="90"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="ba-hdrs">
+        <div class="ba-h bef"><div class="ba-dot-grey"></div>Before</div>
+        <div class="ba-h aft"><div class="ba-dot-teal"></div>After</div>
+      </div>
+      <div class="mrow"><div class="mlbl"><span>🫁</span>VO₂ Max (mL/lb/min)</div><div class="ba-grid"><input class="finput" id="t-vo2b" type="number" placeholder="e.g. 28" step="0.1"><input class="finput after" id="t-vo2a" type="number" placeholder="e.g. 33" step="0.1"></div></div>
+      <div class="mrow"><div class="mlbl"><span>💪</span>Lean Muscle Mass (lbs)</div><div class="ba-grid"><input class="finput" id="t-lmmb" type="number" placeholder="e.g. 120"><input class="finput after" id="t-lmma" type="number" placeholder="e.g. 128"></div></div>
+      <div class="mrow"><div class="mlbl"><span>🔥</span>Visceral Fat (lbs)</div><div class="ba-grid"><input class="finput" id="t-vfb" type="number" placeholder="e.g. 10" step="0.1"><input class="finput after" id="t-vfa" type="number" placeholder="e.g. 7" step="0.1"></div></div>
+      <div class="mrow"><div class="mlbl"><span>✊</span>Grip Strength (lbs)</div><div class="ba-grid"><input class="finput" id="t-gsb" type="number" placeholder="e.g. 80"><input class="finput after" id="t-gsa" type="number" placeholder="e.g. 95"></div></div>
+      <button class="calc-btn" onclick="calcThrive()">Calculate Thrive Years →</button>
+    </div>
+    <div>
+      <div class="thrive-hero">
+        <div class="th-eyebrow">Estimated Thrive Years Gained</div>
+        <div><span class="th-num" id="th-num">—</span><span class="th-unit" id="th-unit"></span></div>
+        <div class="th-sub" id="th-sub">Enter your metrics and calculate</div>
+      </div>
+      <div class="wcard" style="position:relative">
+        <div class="wcard-lbl"><span></span>Risk Summary</div>
+        <div class="mgrid">
+          <div class="mtile"><div class="val navy" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><button class="info-btn" onclick="showInfo('popavg',event)">ℹ</button></div>
+          <div class="mtile"><div class="val navy" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><button class="info-btn" onclick="showInfo('before',event)">ℹ</button></div>
+          <div class="mtile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><button class="info-btn" onclick="showInfo('after',event)">ℹ</button></div>
+          <div class="mtile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><button class="info-btn" onclick="showInfo('ratio',event)">ℹ</button></div>
+          <div class="mtile full"><div class="val" id="r-improve">—</div><div class="lbl">Overall Risk Improvement<br><span style="font-size:8px;opacity:.7">reduction in personal mortality risk</span></div><button class="info-btn" onclick="showInfo('improve',event)">ℹ</button></div>
+        </div>
+        <div class="bann" id="r-bann">Calculate your metrics to see your risk summary.</div>
+        <div id="info-popup" style="display:none;position:absolute;background:var(--white);border:1px solid var(--teal-mid);border-radius:12px;padding:14px 16px;max-width:240px;font-size:12px;color:var(--navy);line-height:1.6;z-index:50;box-shadow:0 4px 16px rgba(26,46,58,0.12)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <span style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase" id="info-title"></span>
+            <button onclick="document.getElementById('info-popup').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);line-height:1;padding:0">×</button>
+          </div>
+          <div id="info-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+const PROGRESS_MESSAGES=[
+  'Every meal is a step forward. Keep building those Thrive Years. 🌿',
+  'Great progress! Consistency is the secret ingredient.',
+  'You\'re thriving. Your future self thanks you.',
+  'Remarkable improvement. The BLU lifestyle is working.',
+  'Extraordinary. Keep going — longevity is a lifelong journey. ✦'
+];
+function updateProgressBar(pctImprove){
+  const display=Math.min(Math.max(pctImprove,0)*1.4,78);
+  setTimeout(()=>{
+    document.getElementById('progress-fill').style.width=display+'%';
+    document.getElementById('progress-pct').textContent=display.toFixed(0)+'%';
+  },100);
+  [10,25,45,62,78].forEach((t,i)=>{
+    document.getElementById('ms-'+i)?.classList.toggle('reached',display>=t);
+  });
+  const idx=display<15?0:display<30?1:display<50?2:display<65?3:4;
+  document.getElementById('progress-msg').textContent=PROGRESS_MESSAGES[idx];
+}
+
+function calcThrive(){
+  const age=parseFloat(document.getElementById('t-age').value);
+  const bw=parseFloat(document.getElementById('t-weight').value);
+  const vo2b=parseFloat(document.getElementById('t-vo2b').value);
+  const vo2a=parseFloat(document.getElementById('t-vo2a').value);
+  const lmmb=parseFloat(document.getElementById('t-lmmb').value);
+  const lmma=parseFloat(document.getElementById('t-lmma').value);
+  const vfb=parseFloat(document.getElementById('t-vfb').value);
+  const vfa=parseFloat(document.getElementById('t-vfa').value);
+  const gsb=parseFloat(document.getElementById('t-gsb').value);
+  const gsa=parseFloat(document.getElementById('t-gsa').value);
+  if([age,bw,vo2b,vo2a,lmmb,lmma,vfb,vfa,gsb,gsa].some(isNaN)){showToast('Please fill in all fields first.');return;}
+
+  const BASELINE={18:0.0071,20:0.0090,25:0.0123,30:0.0165,35:0.0203,40:0.0283,45:0.0436,50:0.0697,55:0.1043,60:0.1546,65:0.2249,70:0.3229};
+  function getBaseline(a){const keys=Object.keys(BASELINE).map(Number);return BASELINE[keys.reduce((p,c)=>Math.abs(c-a)<Math.abs(p-a)?c:p)];}
+  function computeRisk(vo2,muscle,fat,grip){return Math.exp(-0.088*vo2+(-0.015*(100/bw))*muscle+(0.008*(100/bw))*fat+(-0.014)*grip);}
+  function riskToAge(r){
+    const ages=Object.keys(BASELINE).map(Number).sort((a,b)=>a-b);
+    if(r<=BASELINE[ages[0]])return ages[0];
+    if(r>=BASELINE[ages[ages.length-1]])return ages[ages.length-1];
+    for(let i=0;i<ages.length-1;i++){
+      const a1=ages[i],r1=BASELINE[a1],a2=ages[i+1],r2=BASELINE[a2];
+      if(r>=r1&&r<=r2){const t=(Math.log(r)-Math.log(r1))/(Math.log(r2)-Math.log(r1));return a1+t*(a2-a1);}
+    }
+    return ages[ages.length-1];
+  }
+  const relBefore=computeRisk(vo2b,lmmb,vfb,gsb);
+  const relAfter=computeRisk(vo2a,lmma,vfa,gsa);
+  const relRatio=relAfter/relBefore;
+  const pctImprove=(1-relRatio)*100;
+  const popRisk=getBaseline(age);
+  const adjBefore=popRisk;
+  const adjAfter=popRisk*relRatio;
+  const riskAgeBefore=riskToAge(adjBefore);
+  const riskAgeAfter=riskToAge(adjAfter);
+  const thriveYears=Math.max(0,riskAgeBefore-riskAgeAfter);
+
+  document.getElementById('th-num').textContent=thriveYears.toFixed(1);
+  document.getElementById('th-unit').textContent=' yrs';
+  document.getElementById('th-sub').textContent=`Your mortality risk moved from a ${Math.round(riskAgeBefore)}-yr-old's to roughly a ${Math.round(riskAgeAfter)}-yr-old's`;
+  document.getElementById('r-popavg').textContent=(popRisk*100).toFixed(2)+'%';
+  document.getElementById('r-before').textContent=(adjBefore*100).toFixed(2)+'%';
+  document.getElementById('r-after').textContent=(adjAfter*100).toFixed(2)+'%';
+  document.getElementById('r-ratio').textContent=relRatio.toFixed(3);
+  document.getElementById('r-improve').textContent='↓ '+pctImprove.toFixed(1)+'%';
+  document.getElementById('r-bann').textContent=`✦ 10-yr death risk dropped from ${(adjBefore*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(riskAgeAfter)}-year-old's risk`;
+  showToast('✓ Thrive Years calculated!');
+  updateProgressBar(pctImprove);
+}
+
+const INFO={
+  popavg:{title:'Avg 10-yr Death Risk',body:'Out of 100 people your age, this is roughly how many are expected to die in the next 10 years. It\'s the average for your age group — your personal risk may be higher or lower.'},
+  before:{title:'Your Risk Before',body:'Based on your fitness metrics before any changes, this is your estimated chance of dying in the next 10 years — compared to the average for your age.'},
+  after:{title:'Your Risk After',body:'With your improved fitness metrics, this is your new estimated 10-year risk. The lower this number, the better!'},
+  ratio:{title:'Relative Risk Ratio',body:'This compares your risk after vs. before. A number below 1.0 means your risk went down. For example, 0.75 means your risk is now 25% lower than it was.'},
+  improve:{title:'Overall Risk Improvement',body:'The total percentage drop in your personal mortality risk. A 20% improvement means you\'re meaningfully less likely to die in the next 10 years than before your fitness changes.'}
+};
+function showInfo(key,e){
+  e.stopPropagation();
+  const popup=document.getElementById('info-popup');
+  document.getElementById('info-title').textContent=INFO[key].title;
+  document.getElementById('info-body').textContent=INFO[key].body;
+  const rect=e.currentTarget.getBoundingClientRect();
+  const parent=popup.parentElement.getBoundingClientRect();
+  popup.style.display='block';
+  popup.style.top=(rect.bottom-parent.top+8)+'px';
+  popup.style.left=Math.min(Math.max(rect.left-parent.left,0),parent.width-250)+'px';
+}
+document.addEventListener('click',()=>{
+  const p=document.getElementById('info-popup');
+  if(p)p.style.display='none';
+});
+</script>
+</body>
+</html>
