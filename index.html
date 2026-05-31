@@ -9,96 +9,140 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f6f7;
-  --white:#ffffff;
-  --teal:#2ab5a5;
-  --teal-light:#e8f7f5;
-  --teal-mid:#c5ebe7;
-  --navy:#1a2e3a;
-  --text:#1a2e3a;
-  --muted:#8a9baa;
-  --border:#e2e8ed;
-  --header-h:64px;
+  --bg:#f4f6f7;--white:#fff;--teal:#2ab5a5;--teal-light:#e8f7f5;
+  --teal-mid:#c5ebe7;--navy:#1a2e3a;--muted:#8a9baa;--border:#e2e8ed;
 }
-html,body{min-height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text)}
-header{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:var(--header-h);background:var(--white);border-bottom:1px solid var(--border)}
+html,body{min-height:100%;font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--navy)}
+header{display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;background:var(--white);border-bottom:1px solid var(--border)}
 .logo-row{display:flex;align-items:center;gap:12px}
 .logo-badge{width:38px;height:38px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;letter-spacing:.05em}
-.logo-name{font-size:16px;color:var(--navy);font-weight:400}
+.logo-name{font-size:16px;font-weight:400}
 .logo-name span{color:var(--teal);font-weight:600}
 .hdr-tag{font-size:12px;font-weight:500;color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-mid);padding:4px 12px;border-radius:20px}
 .page{max-width:960px;margin:0 auto;padding:36px 32px 60px}
 
-/* PROGRESS BAR */
-.thrive-progress-wrap{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:28px}
-.thrive-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.thrive-progress-label{font-size:11px;font-weight:600;color:var(--navy);letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+/* PROGRESS */
+.prog-wrap{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:28px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prog-lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block}
-.thrive-progress-pct{font-size:13px;font-weight:700;color:var(--teal)}
-.thrive-progress-track{height:10px;background:var(--teal-light);border-radius:99px;overflow:hidden;margin-bottom:10px}
-.thrive-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1a9e90,var(--teal),#4fd1c4);border-radius:99px;transition:width 1.1s cubic-bezier(.4,0,.2,1);position:relative}
-.thrive-progress-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:18px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35));border-radius:99px}
-.thrive-progress-milestones{display:flex;justify-content:space-between;position:relative;padding:0 2px}
-.thrive-progress-milestones::before{content:'';position:absolute;top:6px;left:2px;right:2px;height:1px;background:var(--border);z-index:0}
+.prog-pct{font-size:13px;font-weight:700;color:var(--teal)}
+.prog-track{height:10px;background:var(--teal-light);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,#1a9e90,var(--teal),#4fd1c4);border-radius:99px;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
+.milestones{display:flex;justify-content:space-between;position:relative;padding:0 2px}
+.milestones::before{content:'';position:absolute;top:6px;left:2px;right:2px;height:1px;background:var(--border)}
 .tpm{display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1}
 .tpm-dot{width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--border);transition:all .5s}
 .tpm-dot.reached{background:var(--teal);border-color:var(--teal)}
 .tpm-lbl{font-size:9px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
-.thrive-progress-msg{font-size:12px;color:var(--muted);font-style:italic;margin-top:10px;text-align:center;min-height:16px}
+.prog-msg{font-size:12px;color:var(--muted);font-style:italic;margin-top:10px;text-align:center}
 
 /* INTRO */
 .thrive-intro{margin-bottom:24px}
-.thrive-intro h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.thrive-intro h1{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;line-height:1.2;margin-bottom:6px}
 .thrive-intro h1 em{font-style:italic;color:var(--teal)}
 .thrive-intro p{font-size:13px;color:var(--muted);line-height:1.65}
 
 /* LAYOUT */
-.thrive-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-.wcard{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px}
-.wcard-lbl{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.wcard-lbl span{display:inline-block;width:14px;height:1.5px;background:var(--teal)}
-.body-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px}
+.card-lbl{font-size:11px;font-weight:600;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.card-lbl span{display:inline-block;width:14px;height:1.5px;background:var(--teal)}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .flbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
-.finput{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:12px 14px;font-size:14px;color:var(--navy);font-family:inherit;width:100%;outline:none;transition:border-color .15s}
-.finput:focus{border-color:var(--teal)}
-.finput.after{border-color:var(--teal-mid);background:var(--teal-light);color:var(--teal)}
-.finput.after:focus{border-color:var(--teal)}
-.divider{height:1px;background:var(--border);margin:14px 0}
+.inp{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 13px;font-size:13px;color:var(--navy);font-family:inherit;width:100%;outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--teal)}
+.inp.after{border-color:var(--teal-mid);background:var(--teal-light);color:var(--teal)}
+.inp.after:focus{border-color:var(--teal)}
+.div{height:1px;background:var(--border);margin:14px 0}
 .ba-hdrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .ba-h{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:7px;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px}
 .ba-h.bef{color:var(--muted);background:var(--bg);border:1px solid var(--border)}
 .ba-h.aft{color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-mid)}
-.ba-dot-grey{width:7px;height:7px;border-radius:50%;background:var(--muted)}
-.ba-dot-teal{width:7px;height:7px;border-radius:50%;background:var(--teal)}
-.mrow{margin-bottom:14px}
-.mlbl{font-size:11px;font-weight:600;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:6px}
-.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dot-grey{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.dot-teal{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.mrow{margin-bottom:12px}
+.mlbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.bagrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .calc-btn{width:100%;padding:14px;background:var(--teal);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity .15s}
 .calc-btn:hover{opacity:.88}
-.thrive-hero{background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:14px}
-.th-eyebrow{font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
-.th-num{font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:var(--teal);line-height:1}
-.th-unit{font-size:20px;font-weight:500;color:var(--teal);margin-left:4px;opacity:.7}
-.th-sub{margin-top:10px;font-size:12px;color:#5a8090}
+
+/* HERO */
+.hero{background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:16px;padding:24px 20px;text-align:center;margin-bottom:10px}
+.hero-eye{font-size:10px;font-weight:600;color:var(--teal);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.hero-num{font-family:'Playfair Display',serif;font-size:64px;font-weight:700;color:var(--teal);line-height:1}
+.hero-unit{font-size:18px;font-weight:500;color:var(--teal);opacity:.7;margin-left:4px}
+.hero-sub{margin-top:8px;font-size:12px;color:#5a8090}
+
+/* RISK TILES */
 .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.mtile{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
-.mtile .val{font-size:22px;font-weight:700;color:var(--teal);margin-bottom:4px}
-.mtile .val.navy{color:var(--navy)}
-.mtile .lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
-.mtile.full{grid-column:1/-1}
-.bann{text-align:center;padding:13px 16px;border-radius:11px;font-size:12px;font-weight:500;line-height:1.5;background:var(--teal-light);border:1px solid var(--teal-mid);color:var(--teal)}
-.info-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);opacity:.6;padding:2px 4px;margin-top:4px;font-family:inherit;transition:opacity .15s}
+.tile{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.tile .val{font-size:20px;font-weight:700;color:var(--teal);margin-bottom:4px}
+.tile .val.nv{color:var(--navy)}
+.tile .lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
+.tile.full{grid-column:1/-1}
+.bann{text-align:center;padding:12px 14px;border-radius:10px;font-size:12px;font-weight:500;line-height:1.5;background:var(--teal-light);border:1px solid var(--teal-mid);color:var(--teal)}
+.info-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);opacity:.6;padding:2px 4px;margin-top:3px;font-family:inherit}
 .info-btn:hover{opacity:1}
+
+/* PERSONALIZATION */
+.personal{background:linear-gradient(135deg,#1a2e3a 0%,#1e3a4a 100%);border-radius:16px;padding:22px 24px;margin-bottom:10px;display:none}
+.personal.show{display:block}
+.per-eye{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.per-msg{font-family:'Playfair Display',serif;font-size:17px;color:#fff;line-height:1.6;font-style:italic}
+.per-msg strong{color:var(--teal);font-style:normal}
+.per-contrib{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.55)}
+.per-contrib span{color:var(--teal);font-weight:600}
+
+/* OPPORTUNITY */
+.opp-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px;display:none}
+.opp-card.show{display:block}
+.opp-sublbl{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;margin-top:14px}
+.opp-sublbl:first-of-type{margin-top:0}
+.bullet-list{display:flex;flex-direction:column;gap:6px}
+.bitem{display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:9px 12px}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:6px}
+.btxt{font-size:13px;color:var(--navy);line-height:1.5;flex:1;outline:none;border:none;background:transparent;font-family:'DM Sans',sans-serif;resize:none;overflow:hidden}
+.add-btn{display:flex;align-items:center;gap:5px;margin-top:6px;font-size:12px;color:var(--teal);cursor:pointer;background:none;border:none;font-family:inherit;padding:3px 0}
+.add-btn:hover{opacity:.7}
+
+/* PRINT BTN */
+.print-btn{width:100%;padding:13px;background:var(--white);color:var(--teal);border:1.5px solid var(--teal);border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px;display:none;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.print-btn:hover{background:var(--teal-light)}
+.print-btn.show{display:flex}
+
+/* INFO POPUP */
+.info-popup{display:none;position:absolute;background:var(--white);border:1px solid var(--teal-mid);border-radius:12px;padding:14px 16px;max-width:240px;font-size:12px;color:var(--navy);line-height:1.6;z-index:50;box-shadow:0 4px 16px rgba(26,46,58,.12)}
+.info-pop-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.info-pop-title{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase}
+.info-close{background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);line-height:1;padding:0}
+
 .toast{position:fixed;bottom:28px;right:28px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:200;transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
-@media(max-width:680px){
-  .thrive-layout{grid-template-columns:1fr}
-  .page{padding:24px 16px 48px}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body,html{background:#fff!important}
+  header,.prog-wrap,.thrive-intro,.layout>.card:first-child,
+  .calc-btn,.print-btn,.toast,.info-popup,.info-btn,
+  .add-btn,.opp-card .opp-sublbl+.add-btn{display:none!important}
+  .page{padding:0!important;max-width:100%!important}
+  .layout{display:block!important}
+  .personal{display:block!important}
+  .opp-card{display:block!important}
+  .card,.personal,.opp-card,.hero{page-break-inside:avoid;margin-bottom:14px!important}
+  .bitem{background:#f4f6f7!important;border:1px solid #e2e8ed!important}
+  .btxt{font-size:12px!important}
+  .print-header{display:block!important}
 }
+.print-header{display:none}
+
+@media(max-width:680px){.layout{grid-template-columns:1fr}.page{padding:24px 16px 48px}}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo-row">
     <div class="logo-badge">BLU</div>
@@ -107,76 +151,136 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
   <span class="hdr-tag">Longevity Nutrition · Fort Lauderdale</span>
 </header>
 
-<div class="page">
+<!-- PRINT HEADER (only shows when printing) -->
+<div class="print-header" style="display:none;padding:20px 32px 0;max-width:960px;margin:0 auto">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:2px solid #e2e8ed;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:34px;height:34px;background:#2ab5a5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#fff">BLU</div>
+      <span style="font-size:15px;font-family:'DM Sans',sans-serif">by <strong style="color:#2ab5a5">ThriveWell</strong> · ThriveYears Report</span>
+    </div>
+    <span id="print-date" style="font-size:11px;color:#8a9baa"></span>
+  </div>
+</div>
 
+<div class="page">
   <!-- PROGRESS BAR -->
-  <div class="thrive-progress-wrap">
-    <div class="thrive-progress-top">
-      <div class="thrive-progress-label"><span class="dot-pulse"></span>BLU Longevity Journey</div>
-      <div class="thrive-progress-pct" id="progress-pct">—</div>
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-lbl"><span class="dot-pulse"></span>BLU Longevity Journey</div>
+      <div class="prog-pct" id="prog-pct">—</div>
     </div>
-    <div class="thrive-progress-track">
-      <div class="thrive-progress-fill" id="progress-fill"></div>
-    </div>
-    <div class="thrive-progress-milestones">
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="milestones">
       <div class="tpm"><div class="tpm-dot" id="ms-0"></div><div class="tpm-lbl">Starting</div></div>
       <div class="tpm"><div class="tpm-dot" id="ms-1"></div><div class="tpm-lbl">Improving</div></div>
       <div class="tpm"><div class="tpm-dot" id="ms-2"></div><div class="tpm-lbl">Thriving</div></div>
       <div class="tpm"><div class="tpm-dot" id="ms-3"></div><div class="tpm-lbl">Flourishing</div></div>
       <div class="tpm"><div class="tpm-dot" id="ms-4"></div><div class="tpm-lbl">Keep going ✦</div></div>
     </div>
-    <div class="thrive-progress-msg" id="progress-msg">Calculate your Thrive Years to see your progress.</div>
+    <div class="prog-msg" id="prog-msg">Calculate your Thrive Years to see your progress.</div>
   </div>
 
   <!-- INTRO -->
   <div class="thrive-intro">
     <h1>Calculate Your <em>Thrive Years</em></h1>
-    <p>Enter your before &amp; after fitness metrics to see your mortality risk reduction and the healthy years you're building.</p>
+    <p>Enter before &amp; after fitness metrics to see mortality risk reduction and the healthy years you're building.</p>
   </div>
 
-  <!-- CALCULATOR -->
-  <div class="thrive-layout">
-    <div class="wcard">
-      <div class="wcard-lbl"><span></span>Your Fitness Profile</div>
-      <div class="body-grid">
-        <div><div class="flbl">Body Weight (lbs)</div><input class="finput" id="t-weight" type="number" placeholder="e.g. 175" min="80" max="400"></div>
-        <div><div class="flbl">Current Age</div><input class="finput" id="t-age" type="number" placeholder="e.g. 45" min="18" max="90"></div>
+  <div class="layout">
+    <!-- LEFT: INPUTS -->
+    <div class="card">
+      <div class="card-lbl"><span></span>Client Profile</div>
+      <div class="row3">
+        <div><div class="flbl">Client Name</div><input class="inp" id="t-name" type="text" placeholder="e.g. Sam"></div>
+        <div><div class="flbl">Age</div><input class="inp" id="t-age" type="number" placeholder="e.g. 48"></div>
+        <div><div class="flbl">Weight (lbs)</div><input class="inp" id="t-weight" type="number" placeholder="e.g. 182"></div>
       </div>
-      <div class="divider"></div>
+      <div class="div"></div>
       <div class="ba-hdrs">
-        <div class="ba-h bef"><div class="ba-dot-grey"></div>Before</div>
-        <div class="ba-h aft"><div class="ba-dot-teal"></div>After</div>
+        <div class="ba-h bef"><div class="dot-grey"></div>Before</div>
+        <div class="ba-h aft"><div class="dot-teal"></div>After</div>
       </div>
-      <div class="mrow"><div class="mlbl"><span>🫁</span>VO₂ Max (mL/lb/min)</div><div class="ba-grid"><input class="finput" id="t-vo2b" type="number" placeholder="e.g. 28" step="0.1"><input class="finput after" id="t-vo2a" type="number" placeholder="e.g. 33" step="0.1"></div></div>
-      <div class="mrow"><div class="mlbl"><span>💪</span>Lean Muscle Mass (lbs)</div><div class="ba-grid"><input class="finput" id="t-lmmb" type="number" placeholder="e.g. 120"><input class="finput after" id="t-lmma" type="number" placeholder="e.g. 128"></div></div>
-      <div class="mrow"><div class="mlbl"><span>🔥</span>Visceral Fat (lbs)</div><div class="ba-grid"><input class="finput" id="t-vfb" type="number" placeholder="e.g. 10" step="0.1"><input class="finput after" id="t-vfa" type="number" placeholder="e.g. 7" step="0.1"></div></div>
-      <div class="mrow"><div class="mlbl"><span>✊</span>Grip Strength (lbs)</div><div class="ba-grid"><input class="finput" id="t-gsb" type="number" placeholder="e.g. 80"><input class="finput after" id="t-gsa" type="number" placeholder="e.g. 95"></div></div>
+      <div class="mrow">
+        <div class="mlbl">🫁 VO₂ Max (mL/lb/min)</div>
+        <div class="bagrid">
+          <input class="inp" id="t-vo2b" type="number" placeholder="e.g. 11.5" step="0.1">
+          <input class="inp after" id="t-vo2a" type="number" placeholder="e.g. 13.8" step="0.1">
+        </div>
+      </div>
+      <div class="mrow">
+        <div class="mlbl">💪 Lean Muscle Mass (lbs)</div>
+        <div class="bagrid">
+          <input class="inp" id="t-lmmb" type="number" placeholder="e.g. 122">
+          <input class="inp after" id="t-lmma" type="number" placeholder="e.g. 131">
+        </div>
+      </div>
+      <div class="mrow">
+        <div class="mlbl">🔥 Visceral Fat (lbs)</div>
+        <div class="bagrid">
+          <input class="inp" id="t-vfb" type="number" placeholder="e.g. 10.2" step="0.1">
+          <input class="inp after" id="t-vfa" type="number" placeholder="e.g. 7.8" step="0.1">
+        </div>
+      </div>
+      <div class="mrow">
+        <div class="mlbl">✊ Grip Strength (lbs)</div>
+        <div class="bagrid">
+          <input class="inp" id="t-gsb" type="number" placeholder="e.g. 68">
+          <input class="inp after" id="t-gsa" type="number" placeholder="e.g. 84">
+        </div>
+      </div>
       <button class="calc-btn" onclick="calcThrive()">Calculate Thrive Years →</button>
-    </div>
-    <div>
-      <div class="thrive-hero">
-        <div class="th-eyebrow">Estimated Thrive Years Gained</div>
-        <div><span class="th-num" id="th-num">—</span><span class="th-unit" id="th-unit"></span></div>
-        <div class="th-sub" id="th-sub">Enter your metrics and calculate</div>
+      <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px;font-style:italic">Blank fields will use age-group population averages</div>
+
+      <!-- BIGGEST OPPORTUNITY -->
+      <div class="opp-card" id="opp-card">
+        <div class="card-lbl"><span></span>Biggest Opportunity</div>
+        <div class="opp-sublbl">Coach's Assessment</div>
+        <div class="bullet-list" id="assess-list"></div>
+        <button class="add-btn" onclick="addBullet('assess-list','')">＋ Add point</button>
+        <div class="opp-sublbl">Actions to Get There</div>
+        <div class="bullet-list" id="action-list"></div>
+        <button class="add-btn" onclick="addBullet('action-list','')">＋ Add action</button>
       </div>
-      <div class="wcard" style="position:relative">
-        <div class="wcard-lbl"><span></span>Risk Summary</div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div>
+      <!-- PERSONALIZATION -->
+      <div class="personal" id="personal">
+        <div class="per-eye" id="per-eye">YOUR RESULTS</div>
+        <div class="per-msg" id="per-msg"></div>
+        <div class="per-contrib" id="per-contrib"></div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-eye">Estimated ThriveYears Impacted</div>
+        <div><span class="hero-num" id="th-num">—</span><span class="hero-unit" id="th-unit"></span></div>
+        <div class="hero-sub" id="th-sub">Enter your metrics and calculate</div>
+      </div>
+
+      <!-- RISK SUMMARY -->
+      <div class="card" style="position:relative">
+        <div class="card-lbl"><span></span>Risk Summary</div>
         <div class="mgrid">
-          <div class="mtile"><div class="val navy" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><button class="info-btn" onclick="showInfo('popavg',event)">ℹ</button></div>
-          <div class="mtile"><div class="val navy" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><button class="info-btn" onclick="showInfo('before',event)">ℹ</button></div>
-          <div class="mtile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><button class="info-btn" onclick="showInfo('after',event)">ℹ</button></div>
-          <div class="mtile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><button class="info-btn" onclick="showInfo('ratio',event)">ℹ</button></div>
-          <div class="mtile full"><div class="val" id="r-improve">—</div><div class="lbl">Overall Risk Improvement<br><span style="font-size:8px;opacity:.7">reduction in personal mortality risk</span></div><button class="info-btn" onclick="showInfo('improve',event)">ℹ</button></div>
+          <div class="tile"><div class="val nv" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><button class="info-btn" onclick="showInfo('popavg',event)">ℹ</button></div>
+          <div class="tile"><div class="val nv" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><button class="info-btn" onclick="showInfo('before',event)">ℹ</button></div>
+          <div class="tile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><button class="info-btn" onclick="showInfo('after',event)">ℹ</button></div>
+          <div class="tile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><button class="info-btn" onclick="showInfo('ratio',event)">ℹ</button></div>
+          <div class="tile full"><div class="val" id="r-improve">—</div><div class="lbl">Overall Risk Improvement<br><span style="font-size:8px;opacity:.7">reduction in personal mortality risk</span></div><button class="info-btn" onclick="showInfo('improve',event)">ℹ</button></div>
         </div>
         <div class="bann" id="r-bann">Calculate your metrics to see your risk summary.</div>
-        <div id="info-popup" style="display:none;position:absolute;background:var(--white);border:1px solid var(--teal-mid);border-radius:12px;padding:14px 16px;max-width:240px;font-size:12px;color:var(--navy);line-height:1.6;z-index:50;box-shadow:0 4px 16px rgba(26,46,58,0.12)">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase" id="info-title"></span>
-            <button onclick="document.getElementById('info-popup').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);line-height:1;padding:0">×</button>
+        <div class="info-popup" id="info-popup">
+          <div class="info-pop-hd">
+            <span class="info-pop-title" id="info-title"></span>
+            <button class="info-close" onclick="document.getElementById('info-popup').style.display='none'">×</button>
           </div>
           <div id="info-body"></div>
         </div>
       </div>
+
+      <!-- PRINT -->
+      <button class="print-btn" id="print-btn" onclick="doPrint()">🖨️ Print One Pager</button>
     </div>
   </div>
 </div>
@@ -184,106 +288,349 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
 <div class="toast" id="toast"></div>
 
 <script>
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
+// ── UTILS ──
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-const PROGRESS_MESSAGES=[
-  'Every meal is a step forward. Keep building those Thrive Years. 🌿',
+// ── PROGRESS ──
+const PROG_MSGS=[
+  'Every session is a step forward. Keep building those Thrive Years. 🌿',
   'Great progress! Consistency is the secret ingredient.',
   'You\'re thriving. Your future self thanks you.',
   'Remarkable improvement. The BLU lifestyle is working.',
   'Extraordinary. Keep going — longevity is a lifelong journey. ✦'
 ];
-function updateProgressBar(pctImprove){
-  const display=Math.min(Math.max(pctImprove,0)*1.4,78);
+function updateProgress(pct){
+  const d=Math.min(Math.max(pct,0)*1.4,78);
   setTimeout(()=>{
-    document.getElementById('progress-fill').style.width=display+'%';
-    document.getElementById('progress-pct').textContent=display.toFixed(0)+'%';
+    document.getElementById('prog-fill').style.width=d+'%';
+    document.getElementById('prog-pct').textContent=d.toFixed(0)+'%';
   },100);
-  [10,25,45,62,78].forEach((t,i)=>{
-    document.getElementById('ms-'+i)?.classList.toggle('reached',display>=t);
-  });
-  const idx=display<15?0:display<30?1:display<50?2:display<65?3:4;
-  document.getElementById('progress-msg').textContent=PROGRESS_MESSAGES[idx];
+  [10,25,45,62,78].forEach((t,i)=>document.getElementById('ms-'+i)?.classList.toggle('reached',d>=t));
+  document.getElementById('prog-msg').textContent=PROG_MSGS[d<15?0:d<30?1:d<50?2:d<65?3:4];
 }
 
+// ── BULLET LIST ──
+function addBullet(listId, text){
+  const list=document.getElementById(listId);
+  const item=document.createElement('div');
+  item.className='bitem';
+  const ta=document.createElement('textarea');
+  ta.className='btxt';
+  ta.rows=1;
+  ta.value=text||'';
+  ta.placeholder='Type here...';
+  ta.oninput=()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px'};
+  item.innerHTML='<div class="bdot"></div>';
+  item.appendChild(ta);
+  list.appendChild(item);
+  if(!text) setTimeout(()=>{ta.focus();},30);
+  setTimeout(()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px'},10);
+}
+
+// ── OPPORTUNITY SUGGESTIONS ──
+const SUGG={
+  'VO₂ Max':{
+    assess:[
+      'Cardiorespiratory fitness is the highest-leverage metric for mortality risk reduction and has the most room to grow.',
+      'VO₂ max improvements compound over time — even modest gains in aerobic capacity significantly shift the risk profile.',
+      'Current aerobic capacity is below the threshold associated with optimal longevity outcomes for this age group.'
+    ],
+    actions:[
+      'Build up to 3–4 Zone 2 sessions per week (30–45 min each at 60–70% max heart rate)',
+      'Add one high-intensity interval session weekly: 4 rounds of 4 min effort / 3 min recovery',
+      'Re-test VO₂ max or complete a 12-min Cooper Run Test at the 90-day mark to track progress'
+    ]
+  },
+  'Visceral Fat':{
+    assess:[
+      'Visceral fat is elevated above the optimal range for this age and weight profile, driving systemic inflammation.',
+      'Even a 1–2 lb reduction in visceral fat is associated with meaningful improvements across cardiovascular and metabolic markers.',
+      'Addressing visceral fat now will compound across all other metrics — it is the clearest near-term opportunity.'
+    ],
+    actions:[
+      'Reduce added sugar intake to under 25g per day and cut refined carbohydrates from main meals',
+      'Add 30-min fasted morning walks 4–5 days per week — shown to preferentially target visceral fat',
+      'Re-assess visceral fat via DEXA scan or waist circumference measurement at the 90-day mark'
+    ]
+  },
+  'Lean Muscle':{
+    assess:[
+      'Lean muscle mass is below the optimal range for this age and body weight, limiting metabolic resilience and strength reserve.',
+      'Building muscle now creates compounding longevity benefits — every additional pound reduces mortality risk and improves insulin sensitivity.',
+      'Resistance training adaptations in this age group are well-documented and achievable within 8–12 weeks of consistent effort.'
+    ],
+    actions:[
+      'Begin a progressive resistance training program — 3 sessions per week targeting all major muscle groups with compound lifts',
+      'Increase daily protein intake to 0.8–1.0g per lb of body weight, with plant and lean animal sources at each meal',
+      'Track lean mass via DEXA scan at 90-day intervals — expect 2–4 lb gains in the first quarter with consistent training'
+    ]
+  },
+  'Grip Strength':{
+    assess:[
+      'Grip strength is below the optimal range for this age group and is a reliable proxy for overall musculoskeletal health.',
+      'Low grip strength is independently associated with higher cardiovascular and all-cause mortality risk across multiple large studies.',
+      'This metric responds quickly to targeted training — measurable improvement is typically seen within 6–8 weeks.'
+    ],
+    actions:[
+      'Add 2 sets of farmer carries and 30-second dead hangs to each resistance training session',
+      'Use a grip strengthener for 5–10 minutes daily — progress resistance every two weeks',
+      'Re-test grip strength with a hand dynamometer at the 60-day mark to confirm progress'
+    ]
+  }
+};
+
+function populateOpp(key){
+  const s=SUGG[key]||SUGG['VO₂ Max'];
+  document.getElementById('assess-list').innerHTML='';
+  document.getElementById('action-list').innerHTML='';
+  s.assess.forEach(t=>addBullet('assess-list',t));
+  s.actions.forEach(t=>addBullet('action-list',t));
+}
+
+// ── CALCULATE ──
 function calcThrive(){
+  const name=document.getElementById('t-name').value.trim();
   const age=parseFloat(document.getElementById('t-age').value);
   const bw=parseFloat(document.getElementById('t-weight').value);
-  const vo2b=parseFloat(document.getElementById('t-vo2b').value);
-  const vo2a=parseFloat(document.getElementById('t-vo2a').value);
-  const lmmb=parseFloat(document.getElementById('t-lmmb').value);
-  const lmma=parseFloat(document.getElementById('t-lmma').value);
-  const vfb=parseFloat(document.getElementById('t-vfb').value);
-  const vfa=parseFloat(document.getElementById('t-vfa').value);
-  const gsb=parseFloat(document.getElementById('t-gsb').value);
-  const gsa=parseFloat(document.getElementById('t-gsa').value);
-  if([age,bw,vo2b,vo2a,lmmb,lmma,vfb,vfa,gsb,gsa].some(isNaN)){showToast('Please fill in all fields first.');return;}
+  if(isNaN(age)||isNaN(bw)){toast('Please enter age and body weight first.');return;}
 
-  // Source: SSA Period Life Table 2021 (male+female average), ssa.gov/oact/STATS/table4c6.html
-  const BASELINE={18:0.0089,20:0.0094,25:0.0111,30:0.0157,35:0.0237,40:0.0361,45:0.0548,50:0.0821,55:0.1211,60:0.1769,65:0.2563,70:0.3647};
-  function getBaseline(a){const keys=Object.keys(BASELINE).map(Number);return BASELINE[keys.reduce((p,c)=>Math.abs(c-a)<Math.abs(p-a)?c:p)];}
-  function computeRisk(vo2,muscle,fat,grip){return Math.exp(-0.040*vo2+(-0.015*(100/bw))*muscle+(0.008*(100/bw))*fat+(-0.014)*grip);}
-  function riskToAge(r){
-    const ages=Object.keys(BASELINE).map(Number).sort((a,b)=>a-b);
-    if(r<=BASELINE[ages[0]])return ages[0];
-    if(r>=BASELINE[ages[ages.length-1]])return ages[ages.length-1];
+  // Age-based population averages for blank fields (NHANES normative data)
+  const AVG_VO2 = age<30?13.5 : age<40?12.5 : age<50?11.5 : age<60?10.5 : 9.5;
+  const AVG_MUSCLE = (age<40?0.67 : age<50?0.65 : age<60?0.63 : 0.60) * bw;
+  const AVG_FAT    = (age<40?0.050 : age<50?0.055 : age<60?0.060 : 0.065) * bw;
+  const AVG_GRIP   = age<40?95 : age<50?88 : age<60?80 : age<70?72 : 64;
+
+  // Read each field — if blank use population average
+  const rvo2b=parseFloat(document.getElementById('t-vo2b').value);
+  const rvo2a=parseFloat(document.getElementById('t-vo2a').value);
+  const rlmmb=parseFloat(document.getElementById('t-lmmb').value);
+  const rlmma=parseFloat(document.getElementById('t-lmma').value);
+  const rvfb =parseFloat(document.getElementById('t-vfb').value);
+  const rvfa =parseFloat(document.getElementById('t-vfa').value);
+  const rgsb =parseFloat(document.getElementById('t-gsb').value);
+  const rgsa =parseFloat(document.getElementById('t-gsa').value);
+
+  // For each metric: if both fields blank → use avg for both (zero contribution)
+  // If only one field filled → use entered value for both (zero contribution from that metric,
+  // so only fully-filled pairs drive the result)
+  const vo2b = isNaN(rvo2b) ? (isNaN(rvo2a) ? AVG_VO2 : rvo2a) : rvo2b;
+  const vo2a = isNaN(rvo2a) ? (isNaN(rvo2b) ? AVG_VO2 : rvo2b) : rvo2a;
+  const lmmb = isNaN(rlmmb) ? (isNaN(rlmma) ? AVG_MUSCLE : rlmma) : rlmmb;
+  const lmma = isNaN(rlmma) ? (isNaN(rlmmb) ? AVG_MUSCLE : rlmmb) : rlmma;
+  const vfb  = isNaN(rvfb)  ? (isNaN(rvfa)  ? AVG_FAT    : rvfa)  : rvfb;
+  const vfa  = isNaN(rvfa)  ? (isNaN(rvfb)  ? AVG_FAT    : rvfb)  : rvfa;
+  const gsb  = isNaN(rgsb)  ? (isNaN(rgsa)  ? AVG_GRIP   : rgsa)  : rgsb;
+  const gsa  = isNaN(rgsa)  ? (isNaN(rgsb)  ? AVG_GRIP   : rgsb)  : rgsa;
+
+  // Track which fields used defaults
+  const usedDefaults=[];
+  if(isNaN(rvo2b)&&isNaN(rvo2a)) usedDefaults.push('VO₂ Max');
+  if(isNaN(rlmmb)&&isNaN(rlmma)) usedDefaults.push('Lean Muscle');
+  if(isNaN(rvfb) &&isNaN(rvfa))  usedDefaults.push('Visceral Fat');
+  if(isNaN(rgsb) &&isNaN(rgsa))  usedDefaults.push('Grip Strength');
+
+  // SSA Period Life Table 2021 (male+female average)
+  const BL={18:0.0089,20:0.0094,25:0.0111,30:0.0157,35:0.0237,40:0.0361,45:0.0548,50:0.0821,55:0.1211,60:0.1769,65:0.2563,70:0.3647};
+  const getBL=a=>{const k=Object.keys(BL).map(Number);return BL[k.reduce((p,c)=>Math.abs(c-a)<Math.abs(p-a)?c:p)];};
+
+  // VO2 in mL/lb/min → β = -0.088 (= ln(0.87)/3.5 / 0.4536)
+  // Muscle/Fat as % of body weight → -0.015 and +0.008
+  // Grip in lbs → -0.014 (= ln(0.97)/2.2046)
+  const risk=(vo2,m,f,g)=>Math.exp(-0.088*vo2+(-0.015*(100/bw))*m+(0.008*(100/bw))*f+(-0.014)*g);
+
+  const r2age=r=>{
+    const ages=Object.keys(BL).map(Number).sort((a,b)=>a-b);
+    if(r<=BL[ages[0]])return ages[0];
+    if(r>=BL[ages[ages.length-1]])return ages[ages.length-1];
     for(let i=0;i<ages.length-1;i++){
-      const a1=ages[i],r1=BASELINE[a1],a2=ages[i+1],r2=BASELINE[a2];
-      if(r>=r1&&r<=r2){const t=(Math.log(r)-Math.log(r1))/(Math.log(r2)-Math.log(r1));return a1+t*(a2-a1);}
+      const a1=ages[i],r1=BL[a1],a2=ages[i+1],r2=BL[a2];
+      if(r>=r1&&r<=r2){return a1+(Math.log(r)-Math.log(r1))/(Math.log(r2)-Math.log(r1))*(a2-a1);}
     }
     return ages[ages.length-1];
-  }
-  const relBefore=computeRisk(vo2b,lmmb,vfb,gsb);
-  const relAfter=computeRisk(vo2a,lmma,vfa,gsa);
-  const relRatio=relAfter/relBefore;
-  const pctImprove=(1-relRatio)*100;
-  const popRisk=getBaseline(age);
-  const adjBefore=popRisk;
-  const adjAfter=popRisk*relRatio;
-  const riskAgeBefore=riskToAge(adjBefore);
-  const riskAgeAfter=riskToAge(adjAfter);
-  const thriveYears=Math.max(0,riskAgeBefore-riskAgeAfter);
+  };
 
-  document.getElementById('th-num').textContent=thriveYears.toFixed(1);
+  const rB=risk(vo2b,lmmb,vfb,gsb);
+  const rA=risk(vo2a,lmma,vfa,gsa);
+  const ratio=rA/rB;
+  const pct=(1-ratio)*100;
+  const popRisk=getBL(age);
+  const adjAfter=popRisk*ratio;
+  const ageB=r2age(popRisk);
+  const ageA=r2age(adjAfter);
+  const ty=Math.max(0,ageB-ageA);
+
+  // Biggest contributor
+  const contribs={
+    'VO₂ Max':      (1-risk(vo2a,lmmb,vfb,gsb)/rB)*100,
+    'Lean Muscle':  (1-risk(vo2b,lmma,vfb,gsb)/rB)*100,
+    'Visceral Fat': (1-risk(vo2b,lmmb,vfa,gsb)/rB)*100,
+    'Grip Strength':(1-risk(vo2b,lmmb,vfb,gsa)/rB)*100,
+  };
+  const bigKey=Object.keys(contribs).reduce((a,b)=>contribs[a]>contribs[b]?a:b);
+  const bigPct=contribs[bigKey];
+
+  // Update results
+  document.getElementById('th-num').textContent=ty.toFixed(1);
   document.getElementById('th-unit').textContent=' yrs';
-  document.getElementById('th-sub').textContent=`Your mortality risk moved from a ${Math.round(riskAgeBefore)}-yr-old's to roughly a ${Math.round(riskAgeAfter)}-yr-old's`;
+  document.getElementById('th-sub').textContent=`Risk profile shifted from a ${Math.round(ageB)}-yr-old's to a ${Math.round(ageA)}-yr-old's`;
   document.getElementById('r-popavg').textContent=(popRisk*100).toFixed(2)+'%';
-  document.getElementById('r-before').textContent=(adjBefore*100).toFixed(2)+'%';
+  document.getElementById('r-before').textContent=(popRisk*100).toFixed(2)+'%';
   document.getElementById('r-after').textContent=(adjAfter*100).toFixed(2)+'%';
-  document.getElementById('r-ratio').textContent=relRatio.toFixed(3);
-  document.getElementById('r-improve').textContent='↓ '+pctImprove.toFixed(1)+'%';
-  document.getElementById('r-bann').textContent=`✦ 10-yr death risk dropped from ${(adjBefore*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(riskAgeAfter)}-year-old's risk`;
-  showToast('✓ Thrive Years calculated!');
-  updateProgressBar(pctImprove);
+  document.getElementById('r-ratio').textContent=ratio.toFixed(3);
+  document.getElementById('r-improve').textContent='↓ '+pct.toFixed(1)+'%';
+  document.getElementById('r-bann').textContent=`✦ 10-yr death risk dropped from ${(popRisk*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(ageA)}-year-old's risk`;
+  // Remove any previous default note, then add fresh one if needed
+  const oldNote=document.getElementById('defaults-note');
+  if(oldNote) oldNote.remove();
+  if(usedDefaults.length>0){
+    const note=document.createElement('div');
+    note.id='defaults-note';
+    note.style.cssText='margin-top:8px;font-size:11px;color:var(--muted);text-align:center;font-style:italic';
+    note.textContent=`Population averages used for: ${usedDefaults.join(', ')}`;
+    document.getElementById('r-bann').after(note);
+  }
+
+  // Personalization
+  const greet=name?name+',':'Your results:';
+  document.getElementById('per-eye').textContent=(name?name.toUpperCase()+' · ':'')+'YOUR RESULTS';
+  document.getElementById('per-msg').innerHTML=`${greet}<br>Your improvements reduced your estimated mortality risk by <strong>${pct.toFixed(0)}%</strong>. The strongest contributor was your <strong>${bigKey}</strong> improvement. At your current pace, your fitness profile resembles someone approximately <strong>${ty.toFixed(1)} years younger</strong>.`;
+  document.getElementById('per-contrib').innerHTML=`Biggest contributor: <span>${bigKey}</span> (↓${bigPct.toFixed(1)}% risk) &nbsp;·&nbsp; Risk ratio: <span>${ratio.toFixed(3)}</span>`;
+  document.getElementById('personal').classList.add('show');
+
+  // Opportunity + print
+  populateOpp(bigKey);
+  document.getElementById('opp-card').classList.add('show');
+  document.getElementById('print-btn').classList.add('show');
+
+  // Set print date
+  document.getElementById('print-date').textContent=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  toast('✓ Thrive Years calculated!');
+  updateProgress(pct);
 }
 
+// ── PRINT (uses iframe — avoids popup blockers) ──
+function doPrint(){
+  const name=document.getElementById('t-name').value.trim()||'Client';
+  const perMsg=document.getElementById('per-msg').innerHTML;
+  const thNum=document.getElementById('th-num').textContent;
+  const thUnit=document.getElementById('th-unit').textContent;
+  const thSub=document.getElementById('th-sub').textContent;
+  const rPA=document.getElementById('r-popavg').textContent;
+  const rB=document.getElementById('r-before').textContent;
+  const rA=document.getElementById('r-after').textContent;
+  const rR=document.getElementById('r-ratio').textContent;
+  const rI=document.getElementById('r-improve').textContent;
+  const rBann=document.getElementById('r-bann').textContent;
+  const assess=[...document.querySelectorAll('#assess-list .btxt')].map(e=>e.value.trim()).filter(Boolean);
+  const actions=[...document.querySelectorAll('#action-list .btxt')].map(e=>e.value.trim()).filter(Boolean);
+  const today=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+  const css=`
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    body{font-family:'DM Sans',Helvetica,sans-serif;color:#1a2e3a;padding:32px 40px;font-size:12px}
+    .hdr{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:2px solid #e2e8ed;margin-bottom:18px}
+    .logo{display:flex;align-items:center;gap:8px}
+    .lb{width:30px;height:30px;background:#2ab5a5;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;color:#fff}
+    .ln{font-size:14px}.ln b{color:#2ab5a5}
+    .dt{font-size:10px;color:#8a9baa}
+    .personal{background:#1a2e3a;border-radius:10px;padding:16px 20px;margin-bottom:14px}
+    .pe{font-size:9px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:7px}
+    .pm{font-family:Georgia,serif;font-size:15px;color:#fff;line-height:1.55;font-style:italic}
+    .pm b{color:#2ab5a5;font-style:normal}
+    .hero{background:#e8f7f5;border:1px solid #c5ebe7;border-radius:10px;padding:16px;text-align:center;margin-bottom:14px}
+    .he{font-size:9px;font-weight:700;color:#2ab5a5;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+    .hn{font-family:Georgia,serif;font-size:52px;font-weight:700;color:#2ab5a5;line-height:1}
+    .hu{font-size:16px;color:#2ab5a5;opacity:.7;margin-left:3px}
+    .hs{font-size:11px;color:#5a8090;margin-top:5px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .sec{background:#f4f6f7;border-radius:9px;padding:12px 14px}
+    .st{font-size:9px;font-weight:700;color:#2ab5a5;letter-spacing:.1em;text-transform:uppercase;margin-bottom:9px}
+    .sr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #e2e8ed;font-size:11px}
+    .sr:last-child{border-bottom:none}
+    .sl{color:#8a9baa}.sv{font-weight:600}
+    .bann{background:#e8f7f5;border:1px solid #c5ebe7;border-radius:8px;padding:9px 12px;font-size:11px;color:#2ab5a5;font-weight:500;text-align:center;margin-bottom:14px}
+    .osub{font-size:9px;font-weight:600;color:#8a9baa;letter-spacing:.08em;text-transform:uppercase;margin:10px 0 7px}
+    .osub:first-of-type{margin-top:0}
+    .bl{display:flex;gap:7px;margin-bottom:5px;font-size:11px;line-height:1.5}
+    .bd{width:5px;height:5px;border-radius:50%;background:#2ab5a5;flex-shrink:0;margin-top:4px}
+    .foot{margin-top:20px;padding-top:10px;border-top:1px solid #e2e8ed;font-size:9px;color:#8a9baa;display:flex;justify-content:space-between}
+  `;
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>${css}</style></head><body>
+  <div class="hdr">
+    <div class="logo"><div class="lb">BLU</div><span class="ln">by <b>ThriveWell</b> &nbsp;·&nbsp; ThriveYears Report</span></div>
+    <span class="dt">${today}</span>
+  </div>
+  <div class="personal">
+    <div class="pe">${name.toUpperCase()} · YOUR RESULTS</div>
+    <div class="pm">${perMsg}</div>
+  </div>
+  <div class="hero">
+    <div class="he">Estimated ThriveYears Impacted</div>
+    <div><span class="hn">${thNum}</span><span class="hu">${thUnit}</span></div>
+    <div class="hs">${thSub}</div>
+  </div>
+  <div class="cols">
+    <div class="sec">
+      <div class="st">Risk Summary</div>
+      <div class="sr"><span class="sl">Avg 10-yr Death Risk</span><span class="sv">${rPA}</span></div>
+      <div class="sr"><span class="sl">Your Risk Before</span><span class="sv">${rB}</span></div>
+      <div class="sr"><span class="sl">Your Risk After</span><span class="sv">${rA}</span></div>
+      <div class="sr"><span class="sl">Relative Risk Ratio</span><span class="sv">${rR}</span></div>
+      <div class="sr"><span class="sl">Risk Improvement</span><span class="sv">${rI}</span></div>
+    </div>
+    <div class="sec">
+      <div class="st">Biggest Opportunity</div>
+      <div class="osub">Coach's Assessment</div>
+      ${assess.map(t=>`<div class="bl"><div class="bd"></div><span>${t}</span></div>`).join('')}
+    </div>
+  </div>
+  <div class="bann">${rBann}</div>
+  <div class="sec" style="margin-bottom:14px">
+    <div class="st">Actions to Get There</div>
+    <div style="margin-top:8px">
+    ${actions.map(t=>`<div class="bl"><div class="bd"></div><span>${t}</span></div>`).join('')}
+    </div>
+  </div>
+  <div class="foot">
+    <span>BLU by ThriveWell · Longevity Nutrition · Fort Lauderdale</span>
+    <span>Based on published mortality research · SSA Period Life Table 2021</span>
+  </div>
+  <script>window.onload=function(){window.print();}<\/script>
+  </body></html>`;
+
+  // Use hidden iframe — most reliable, no popup blocker issues
+  let fr=document.getElementById('_pf');
+  if(!fr){fr=document.createElement('iframe');fr.id='_pf';fr.style.cssText='position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:0';document.body.appendChild(fr);}
+  fr.srcdoc=html;
+}
+
+// ── INFO POPUP ──
 const INFO={
-  popavg:{title:'Avg 10-yr Death Risk',body:'Out of 100 people your age, this is roughly how many are expected to die in the next 10 years. It\'s the average for your age group — your personal risk may be higher or lower.'},
-  before:{title:'Your Risk Before',body:'Based on your fitness metrics before any changes, this is your estimated chance of dying in the next 10 years — compared to the average for your age.'},
-  after:{title:'Your Risk After',body:'With your improved fitness metrics, this is your new estimated 10-year risk. The lower this number, the better!'},
-  ratio:{title:'Relative Risk Ratio',body:'This compares your risk after vs. before. A number below 1.0 means your risk went down. For example, 0.75 means your risk is now 25% lower than it was.'},
-  improve:{title:'Overall Risk Improvement',body:'The total percentage drop in your personal mortality risk. A 20% improvement means you\'re meaningfully less likely to die in the next 10 years than before your fitness changes.'}
+  popavg:{title:'Avg 10-yr Death Risk',body:'Out of 100 people your age, roughly how many are expected to die in the next 10 years — the population average for your age group.'},
+  before:{title:'Your Risk Before',body:'Your estimated 10-year mortality risk based on your original fitness metrics, relative to the population average for your age.'},
+  after:{title:'Your Risk After',body:'Your new estimated 10-year mortality risk after fitness improvements. The lower this is, the better.'},
+  ratio:{title:'Relative Risk Ratio',body:'Your risk after divided by your risk before. Below 1.0 means risk went down — e.g. 0.72 means 28% lower risk.'},
+  improve:{title:'Overall Risk Improvement',body:'The total percentage reduction in your personal mortality risk from all four metric improvements combined.'}
 };
 function showInfo(key,e){
   e.stopPropagation();
-  const popup=document.getElementById('info-popup');
+  const p=document.getElementById('info-popup');
   document.getElementById('info-title').textContent=INFO[key].title;
   document.getElementById('info-body').textContent=INFO[key].body;
-  const rect=e.currentTarget.getBoundingClientRect();
-  const parent=popup.parentElement.getBoundingClientRect();
-  popup.style.display='block';
-  popup.style.top=(rect.bottom-parent.top+8)+'px';
-  popup.style.left=Math.min(Math.max(rect.left-parent.left,0),parent.width-250)+'px';
+  const r=e.currentTarget.getBoundingClientRect();
+  const pr=p.parentElement.getBoundingClientRect();
+  p.style.display='block';
+  p.style.top=(r.bottom-pr.top+8)+'px';
+  p.style.left=Math.min(Math.max(r.left-pr.left,0),pr.width-250)+'px';
 }
-document.addEventListener('click',()=>{
-  const p=document.getElementById('info-popup');
-  if(p)p.style.display='none';
-});
+document.addEventListener('click',()=>{document.getElementById('info-popup').style.display='none';});
 </script>
 </body>
 </html>
