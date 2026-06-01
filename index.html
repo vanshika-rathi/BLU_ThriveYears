@@ -83,8 +83,15 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
 .tile .lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;line-height:1.4}
 .tile.full{grid-column:1/-1}
 .bann{text-align:center;padding:12px 14px;border-radius:10px;font-size:12px;font-weight:500;line-height:1.5;background:var(--teal-light);border:1px solid var(--teal-mid);color:var(--teal)}
-.info-btn{background:none;border:none;cursor:pointer;font-size:11px;color:var(--teal);opacity:.6;padding:2px 4px;margin-top:3px;font-family:inherit}
-.info-btn:hover{opacity:1}
+
+/* TOOLTIP */
+.tip-wrap{position:relative;display:inline-block}
+.info-btn{background:none;border:1px solid var(--teal-mid);cursor:pointer;font-size:13px;font-weight:700;color:var(--teal);opacity:.7;padding:1px 6px;margin-top:3px;font-family:inherit;border-radius:50%;line-height:1.4;transition:opacity .15s,background .15s}
+.info-btn:hover{opacity:1;background:var(--teal-light)}
+.tooltip{visibility:hidden;opacity:0;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:12px;line-height:1.55;padding:10px 13px;border-radius:10px;width:220px;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:opacity .2s,visibility .2s;pointer-events:none}
+.tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--navy)}
+.tooltip strong{display:block;color:var(--teal);font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+.tip-wrap:hover .tooltip{visibility:visible;opacity:1}
 
 /* PERSONALIZATION */
 .personal{background:linear-gradient(135deg,#1a2e3a 0%,#1e3a4a 100%);border-radius:16px;padding:22px 24px;margin-bottom:10px;display:none}
@@ -112,11 +119,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
 .print-btn:hover{background:var(--teal-light)}
 .print-btn.show{display:flex}
 
-/* INFO POPUP */
-.info-popup{display:none;position:absolute;background:var(--white);border:1px solid var(--teal-mid);border-radius:12px;padding:14px 16px;max-width:240px;font-size:12px;color:var(--navy);line-height:1.6;z-index:50;box-shadow:0 4px 16px rgba(26,46,58,.12)}
-.info-pop-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.info-pop-title{font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase}
-.info-close{background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);line-height:1;padding:0}
 
 .toast{position:fixed;bottom:28px;right:28px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:200;transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
@@ -263,20 +265,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
       <div class="card" style="position:relative">
         <div class="card-lbl"><span></span>Risk Summary</div>
         <div class="mgrid">
-          <div class="tile"><div class="val nv" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><button class="info-btn" onclick="showInfo('popavg',event)">ℹ</button></div>
-          <div class="tile"><div class="val nv" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><button class="info-btn" onclick="showInfo('before',event)">ℹ</button></div>
-          <div class="tile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><button class="info-btn" onclick="showInfo('after',event)">ℹ</button></div>
-          <div class="tile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><button class="info-btn" onclick="showInfo('ratio',event)">ℹ</button></div>
-          <div class="tile full"><div class="val" id="r-improve">—</div><div class="lbl">Overall Risk Improvement<br><span style="font-size:8px;opacity:.7">reduction in personal mortality risk</span></div><button class="info-btn" onclick="showInfo('improve',event)">ℹ</button></div>
+          <div class="tile"><div class="val nv" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Avg 10-yr Death Risk</strong>Out of 100 people your age, roughly how many are expected to die in the next 10 years — the population average for your age group.</div></div></div>
+          <div class="tile"><div class="val nv" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Your Risk Before</strong>Your estimated 10-year mortality risk based on your original fitness metrics, relative to the population average for your age.</div></div></div>
+          <div class="tile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Your Risk After</strong>Your new estimated 10-year mortality risk after fitness improvements. The lower this is, the better.</div></div></div>
+          <div class="tile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Relative Risk Ratio</strong>Your risk after divided by your risk before. Below 1.0 means risk went down — e.g. 0.72 means 28% lower risk.</div></div></div>
+          <div class="tile full"><div class="val" id="r-improve">—</div><div class="lbl">Overall Risk Improvement<br><span style="font-size:8px;opacity:.7">reduction in personal mortality risk</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Overall Risk Improvement</strong>The total percentage reduction in your personal mortality risk from all four metric improvements combined.</div></div></div>
         </div>
         <div class="bann" id="r-bann">Calculate your metrics to see your risk summary.</div>
-        <div class="info-popup" id="info-popup">
-          <div class="info-pop-hd">
-            <span class="info-pop-title" id="info-title"></span>
-            <button class="info-close" onclick="document.getElementById('info-popup').style.display='none'">×</button>
-          </div>
-          <div id="info-body"></div>
-        </div>
       </div>
 
       <!-- PRINT -->
@@ -330,64 +325,101 @@ function addBullet(listId, text){
   setTimeout(()=>{ta.style.height='auto';ta.style.height=ta.scrollHeight+'px'},10);
 }
 
-// ── OPPORTUNITY SUGGESTIONS ──
-const SUGG={
-  'VO₂ Max':{
-    assess:[
-      'Cardiorespiratory fitness is the highest-leverage metric for mortality risk reduction and has the most room to grow.',
-      'VO₂ max improvements compound over time — even modest gains in aerobic capacity significantly shift the risk profile.',
-      'Current aerobic capacity is below the threshold associated with optimal longevity outcomes for this age group.'
-    ],
-    actions:[
-      'Build up to 3–4 Zone 2 sessions per week (30–45 min each at 60–70% max heart rate)',
-      'Add one high-intensity interval session weekly: 4 rounds of 4 min effort / 3 min recovery',
-      'Re-test VO₂ max or complete a 12-min Cooper Run Test at the 90-day mark to track progress'
-    ]
-  },
-  'Visceral Fat':{
-    assess:[
-      'Visceral fat is elevated above the optimal range for this age and weight profile, driving systemic inflammation.',
-      'Even a 1–2 lb reduction in visceral fat is associated with meaningful improvements across cardiovascular and metabolic markers.',
-      'Addressing visceral fat now will compound across all other metrics — it is the clearest near-term opportunity.'
-    ],
-    actions:[
-      'Reduce added sugar intake to under 25g per day and cut refined carbohydrates from main meals',
-      'Add 30-min fasted morning walks 4–5 days per week — shown to preferentially target visceral fat',
-      'Re-assess visceral fat via DEXA scan or waist circumference measurement at the 90-day mark'
-    ]
-  },
-  'Lean Muscle':{
-    assess:[
-      'Lean muscle mass is below the optimal range for this age and body weight, limiting metabolic resilience and strength reserve.',
-      'Building muscle now creates compounding longevity benefits — every additional pound reduces mortality risk and improves insulin sensitivity.',
-      'Resistance training adaptations in this age group are well-documented and achievable within 8–12 weeks of consistent effort.'
-    ],
-    actions:[
-      'Begin a progressive resistance training program — 3 sessions per week targeting all major muscle groups with compound lifts',
-      'Increase daily protein intake to 0.8–1.0g per lb of body weight, with plant and lean animal sources at each meal',
-      'Track lean mass via DEXA scan at 90-day intervals — expect 2–4 lb gains in the first quarter with consistent training'
-    ]
-  },
-  'Grip Strength':{
-    assess:[
-      'Grip strength is below the optimal range for this age group and is a reliable proxy for overall musculoskeletal health.',
-      'Low grip strength is independently associated with higher cardiovascular and all-cause mortality risk across multiple large studies.',
-      'This metric responds quickly to targeted training — measurable improvement is typically seen within 6–8 weeks.'
-    ],
-    actions:[
-      'Add 2 sets of farmer carries and 30-second dead hangs to each resistance training session',
-      'Use a grip strengthener for 5–10 minutes daily — progress resistance every two weeks',
-      'Re-test grip strength with a hand dynamometer at the 60-day mark to confirm progress'
-    ]
-  }
-};
+// ── OPPORTUNITY (dynamic) ──
+function populateOpp(ty, afterVals, avgs){
+  // Find the metric with the most room for improvement vs population average
+  const gaps={
+    'VO₂ Max':      (avgs.vo2    - afterVals.vo2)    / avgs.vo2,
+    'Lean Muscle':  (avgs.muscle - afterVals.muscle)  / avgs.muscle,
+    'Visceral Fat': (afterVals.fat - avgs.fat)         / avgs.fat,
+    'Grip Strength':(avgs.grip   - afterVals.grip)    / avgs.grip,
+  };
+  const oppKey=Object.keys(gaps).reduce((a,b)=>gaps[a]>gaps[b]?a:b);
+  const gap=gaps[oppKey];
 
-function populateOpp(key){
-  const s=SUGG[key]||SUGG['VO₂ Max'];
+  // Tone based on ThriveYears gained — 7 levels for more personalized output
+  const tone = ty>=7?'elite': ty>=5?'exceptional': ty>=3.5?'strong': ty>=2?'progressing': ty>=1?'building': ty>=0.3?'starting':'baseline';
+
+  // Tone-based opening line
+  const openingMap={
+    elite:       `With ${ty.toFixed(1)} Thrive Years gained, this client has achieved elite-level longevity progress — few people reach this threshold. The priority now is protecting and compounding these gains over decades.`,
+    exceptional: `With ${ty.toFixed(1)} Thrive Years gained, this client has made exceptional progress across their fitness profile. The focus shifts to sustaining momentum and fine-tuning the remaining opportunity below.`,
+    strong:      `With ${ty.toFixed(1)} Thrive Years gained, this client is on a strong longevity trajectory. Targeted work on the key area below will push results into the exceptional range.`,
+    progressing: `With ${ty.toFixed(1)} Thrive Years gained, this client is making real, measurable progress. Consistent effort in the area below will meaningfully accelerate the next phase.`,
+    building:    `With ${ty.toFixed(1)} Thrive Year gained, this client is beginning to build longevity momentum. The opportunity below represents the highest-leverage next step.`,
+    starting:    `Initial metrics show ${ty.toFixed(1)} Thrive Years gained — a meaningful start. Focused improvement in the area below can significantly shift the risk profile within 90 days.`,
+    baseline:    `Current metrics show minimal Thrive Years gained so far. This is common at the start of a program — the opportunity below is the clearest lever for driving early results.`,
+  };
+
+  // Metric-specific dynamic content
+  const metricContent={
+    'VO₂ Max':{
+      assess:(gap>0.15?
+        `VO₂ max is ${(gap*100).toFixed(0)}% below the population average for this age group — cardiorespiratory fitness is the highest-leverage metric and the clearest near-term priority.`:
+        gap>0?
+        `VO₂ max is slightly below the age-group average. Even modest improvements here carry the strongest per-unit mortality risk reduction of any metric.`:
+        `VO₂ max is at or above the population average — the goal now is to maintain this level and continue gradual improvement.`
+      ),
+      actions:[
+        `Build up to 3–4 Zone 2 sessions per week (30–45 min at 60–70% max heart rate) — start with 2 if currently sedentary`,
+        `Add one interval session weekly: 4 rounds of 4 min high effort / 3 min recovery — most effective for VO₂ gains`,
+        `Re-test VO₂ max or complete a 12-min Cooper Run Test at the 90-day mark to quantify progress`,
+      ]
+    },
+    'Visceral Fat':{
+      assess:(gap>0.2?
+        `Visceral fat is ${(gap*100).toFixed(0)}% above the age-group average — this is the primary metabolic risk driver and the clearest opportunity for near-term improvement.`:
+        gap>0?
+        `Visceral fat is modestly elevated above the population average. Even a 1–2 lb reduction produces measurable improvements across cardiovascular and inflammatory markers.`:
+        `Visceral fat is at or below the age-group average — maintaining this through diet and activity is the priority.`
+      ),
+      actions:[
+        `Reduce added sugar to under 25g/day and eliminate refined carbohydrates from main meals`,
+        `Add 30-min fasted morning walks 4–5 days per week — shown to preferentially reduce visceral fat`,
+        `Re-assess visceral fat via DEXA scan or waist circumference at the 90-day mark`,
+      ]
+    },
+    'Lean Muscle':{
+      assess:(gap>0.1?
+        `Lean muscle mass is ${(gap*100).toFixed(0)}% below the population average for this age and weight — building muscle now creates compounding longevity benefits.`:
+        gap>0?
+        `Lean muscle mass is slightly below the age-group average. Targeted resistance training and protein intake will close this gap efficiently.`:
+        `Lean muscle mass is at or above the age-group average — the focus is on maintenance and preventing age-related loss.`
+      ),
+      actions:[
+        `3 resistance training sessions per week — prioritize compound lifts (squat, deadlift, press, row)`,
+        `Increase protein intake to 0.8–1.0g per lb of body weight daily, with protein at every meal`,
+        `Track lean mass via DEXA at 90-day intervals — expect 2–4 lb gains in the first quarter`,
+      ]
+    },
+    'Grip Strength':{
+      assess:(gap>0.15?
+        `Grip strength is ${(gap*100).toFixed(0)}% below the age-group average — a reliable indicator of overall musculoskeletal health and an independent mortality risk factor.`:
+        gap>0?
+        `Grip strength is slightly below average. This metric responds quickly to training — measurable gains are typically seen within 6–8 weeks.`:
+        `Grip strength is at or above average — continue resistance training to maintain this as a longevity asset.`
+      ),
+      actions:[
+        `Add 2 sets of farmer carries and 30-second dead hangs to each resistance session`,
+        `Use a grip strengthener for 5–10 minutes daily — increase resistance every two weeks`,
+        `Re-test with a hand dynamometer at the 60-day mark`,
+      ]
+    }
+  };
+
+  const content=metricContent[oppKey];
   document.getElementById('assess-list').innerHTML='';
   document.getElementById('action-list').innerHTML='';
-  s.assess.forEach(t=>addBullet('assess-list',t));
-  s.actions.forEach(t=>addBullet('action-list',t));
+  addBullet('assess-list', openingMap[tone]);
+  addBullet('assess-list', content.assess);
+  if(tone==='elite'||tone==='exceptional'||tone==='strong'){
+    addBullet('assess-list',
+      tone==='elite'
+        ? 'At this level, marginal gains matter — precision in sleep, recovery, and nutrition consistency will protect and extend these results.'
+        : 'The data supports a maintenance and optimization phase — consistency matters more than dramatic changes at this stage.'
+    );
+  }
+  content.actions.forEach(t=>addBullet('action-list',t));
 }
 
 // ── CALCULATE ──
@@ -413,16 +445,18 @@ function calcThrive(){
   const rgsb =parseFloat(document.getElementById('t-gsb').value);
   const rgsa =parseFloat(document.getElementById('t-gsa').value);
 
-  // For each metric: if both fields blank → use avg for both (zero contribution)
-  // If only one field filled → use entered value for both (zero contribution from that metric,
-  // so only fully-filled pairs drive the result)
-  const vo2b = isNaN(rvo2b) ? (isNaN(rvo2a) ? AVG_VO2 : rvo2a) : rvo2b;
-  const vo2a = isNaN(rvo2a) ? (isNaN(rvo2b) ? AVG_VO2 : rvo2b) : rvo2a;
-  const lmmb = isNaN(rlmmb) ? (isNaN(rlmma) ? AVG_MUSCLE : rlmma) : rlmmb;
+  // Fallback logic per metric:
+  // Both filled → use both (actual before/after improvement)
+  // Only "after" filled → before = population average (compares current vs population)
+  // Only "before" filled → after = same as before (no change, neutral)
+  // Both blank → both = population average (zero contribution)
+  const vo2b = isNaN(rvo2b) ? AVG_VO2    : rvo2b;
+  const vo2a = isNaN(rvo2a) ? (isNaN(rvo2b) ? AVG_VO2    : rvo2b) : rvo2a;
+  const lmmb = isNaN(rlmmb) ? AVG_MUSCLE : rlmmb;
   const lmma = isNaN(rlmma) ? (isNaN(rlmmb) ? AVG_MUSCLE : rlmmb) : rlmma;
-  const vfb  = isNaN(rvfb)  ? (isNaN(rvfa)  ? AVG_FAT    : rvfa)  : rvfb;
+  const vfb  = isNaN(rvfb)  ? AVG_FAT    : rvfb;
   const vfa  = isNaN(rvfa)  ? (isNaN(rvfb)  ? AVG_FAT    : rvfb)  : rvfa;
-  const gsb  = isNaN(rgsb)  ? (isNaN(rgsa)  ? AVG_GRIP   : rgsa)  : rgsb;
+  const gsb  = isNaN(rgsb)  ? AVG_GRIP   : rgsb;
   const gsa  = isNaN(rgsa)  ? (isNaN(rgsb)  ? AVG_GRIP   : rgsb)  : rgsa;
 
   // Track which fields used defaults
@@ -501,7 +535,10 @@ function calcThrive(){
   document.getElementById('personal').classList.add('show');
 
   // Opportunity + print
-  populateOpp(bigKey);
+  populateOpp(ty,
+    {vo2:vo2a, muscle:lmma, fat:vfa, grip:gsa},
+    {vo2:AVG_VO2, muscle:AVG_MUSCLE, fat:AVG_FAT, grip:AVG_GRIP}
+  );
   document.getElementById('opp-card').classList.add('show');
   document.getElementById('print-btn').classList.add('show');
 
@@ -610,27 +647,6 @@ function doPrint(){
   if(!fr){fr=document.createElement('iframe');fr.id='_pf';fr.style.cssText='position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:0';document.body.appendChild(fr);}
   fr.srcdoc=html;
 }
-
-// ── INFO POPUP ──
-const INFO={
-  popavg:{title:'Avg 10-yr Death Risk',body:'Out of 100 people your age, roughly how many are expected to die in the next 10 years — the population average for your age group.'},
-  before:{title:'Your Risk Before',body:'Your estimated 10-year mortality risk based on your original fitness metrics, relative to the population average for your age.'},
-  after:{title:'Your Risk After',body:'Your new estimated 10-year mortality risk after fitness improvements. The lower this is, the better.'},
-  ratio:{title:'Relative Risk Ratio',body:'Your risk after divided by your risk before. Below 1.0 means risk went down — e.g. 0.72 means 28% lower risk.'},
-  improve:{title:'Overall Risk Improvement',body:'The total percentage reduction in your personal mortality risk from all four metric improvements combined.'}
-};
-function showInfo(key,e){
-  e.stopPropagation();
-  const p=document.getElementById('info-popup');
-  document.getElementById('info-title').textContent=INFO[key].title;
-  document.getElementById('info-body').textContent=INFO[key].body;
-  const r=e.currentTarget.getBoundingClientRect();
-  const pr=p.parentElement.getBoundingClientRect();
-  p.style.display='block';
-  p.style.top=(r.bottom-pr.top+8)+'px';
-  p.style.left=Math.min(Math.max(r.left-pr.left,0),pr.width-250)+'px';
-}
-document.addEventListener('click',()=>{document.getElementById('info-popup').style.display='none';});
 </script>
 </body>
 </html>
