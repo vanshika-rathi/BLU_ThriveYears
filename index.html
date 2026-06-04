@@ -19,6 +19,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
 .logo-name{font-size:16px;font-weight:400}
 .logo-name span{color:var(--teal);font-weight:600}
 .hdr-tag{font-size:12px;font-weight:500;color:var(--teal);background:var(--teal-light);border:1px solid var(--teal-mid);padding:4px 12px;border-radius:20px}
+.tab-btn{background:none;border:1px solid var(--border);border-radius:10px;padding:7px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit;transition:all .15s}
+.tab-btn:hover{border-color:var(--teal);color:var(--navy)}
+.tab-btn.active{background:var(--teal);border-color:var(--teal);color:#fff}
 .page{max-width:960px;margin:0 auto;padding:36px 32px 60px}
 
 /* PROGRESS */
@@ -150,6 +153,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
     <div class="logo-badge">BLU</div>
     <span class="logo-name">by <span>ThriveWell</span></span>
   </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="tab-btn active" id="tab-calc" onclick="switchTab('calc')">Calculator</button>
+    <button class="tab-btn" id="tab-feedback" onclick="switchTab('feedback')">Feedback</button>
+  </div>
   <span class="hdr-tag">Longevity Nutrition · Fort Lauderdale</span>
 </header>
 
@@ -278,6 +285,44 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
       <button class="print-btn" id="print-btn" onclick="doPrint()">🖨️ Print One Pager</button>
     </div>
   </div>
+
+  <!-- FEEDBACK PAGE -->
+  <div id="feedback-page" style="display:none;max-width:640px;margin:0 auto">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-lbl"><span></span>Share Your Feedback</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Have a suggestion, question, or idea? We'd love to hear from you.</p>
+      <div style="margin-bottom:12px">
+        <div class="flbl">Your Name</div>
+        <input class="inp" id="fb-name" type="text" placeholder="e.g. Sam">
+      </div>
+      <div style="margin-bottom:16px">
+        <div class="flbl">Your Feedback or Question</div>
+        <textarea id="fb-message" placeholder="Share your thoughts, suggestions, or questions..." style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--navy);resize:none;outline:none;transition:border-color .15s;line-height:1.6;height:110px" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+      </div>
+      <button class="calc-btn" style="margin-top:0" onclick="submitFeedback()">Submit Feedback →</button>
+      <div id="fb-success" style="display:none;margin-top:12px;background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--teal);font-weight:500;text-align:center">✓ Thank you! Your feedback has been received.</div>
+      <div id="fb-error" style="display:none;margin-top:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px 14px;font-size:13px;color:#dc2626;text-align:center"></div>
+    </div>
+    <div class="card">
+      <div class="card-lbl"><span></span>Admin Access</div>
+      <div id="admin-locked">
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Enter the password to view all submitted feedback.</p>
+        <div style="display:flex;gap:10px">
+          <input class="inp" id="admin-pw" type="password" placeholder="Password" style="flex:1" onkeydown="if(event.key==='Enter')checkPassword()">
+          <button class="calc-btn" style="width:auto;padding:11px 20px;margin-top:0" onclick="checkPassword()">Unlock</button>
+        </div>
+        <div id="pw-error" style="display:none;margin-top:10px;font-size:12px;color:#dc2626">Incorrect password. Try again.</div>
+      </div>
+      <div id="admin-unlocked" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <span style="font-size:13px;color:var(--muted)" id="fb-count">Loading...</span>
+          <button onclick="loadAllFeedback()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--teal);font-family:inherit;font-weight:600">↻ Refresh</button>
+        </div>
+        <div id="fb-list" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -496,15 +541,20 @@ function calcThrive(){
   const ageA=r2age(adjAfter);
   const ty=Math.max(0,ageB-ageA);
 
-  // Biggest contributor
+  // Biggest contributor when improved / biggest risk factor when worsened
   const contribs={
     'VO₂ Max':      (1-risk(vo2a,lmmb,vfb,gsb)/rB)*100,
     'Lean Muscle':  (1-risk(vo2b,lmma,vfb,gsb)/rB)*100,
     'Visceral Fat': (1-risk(vo2b,lmmb,vfa,gsb)/rB)*100,
     'Grip Strength':(1-risk(vo2b,lmmb,vfb,gsa)/rB)*100,
   };
-  const bigKey=Object.keys(contribs).reduce((a,b)=>contribs[a]>contribs[b]?a:b);
-  const bigPct=contribs[bigKey];
+  const improved = pct > 0;
+  // If improved: find metric with biggest positive contribution
+  // If worsened: find metric with biggest negative contribution (most harmful)
+  const bigKey = improved
+    ? Object.keys(contribs).reduce((a,b)=>contribs[a]>contribs[b]?a:b)
+    : Object.keys(contribs).reduce((a,b)=>contribs[a]<contribs[b]?a:b);
+  const bigPct = contribs[bigKey];
 
   // Update results
   document.getElementById('th-num').textContent=ty.toFixed(1);
@@ -514,8 +564,10 @@ function calcThrive(){
   document.getElementById('r-before').textContent=(popRisk*100).toFixed(2)+'%';
   document.getElementById('r-after').textContent=(adjAfter*100).toFixed(2)+'%';
   document.getElementById('r-ratio').textContent=ratio.toFixed(3);
-  document.getElementById('r-improve').textContent='↓ '+pct.toFixed(1)+'%';
-  document.getElementById('r-bann').textContent=`✦ 10-yr death risk dropped from ${(popRisk*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(ageA)}-year-old's risk`;
+  document.getElementById('r-improve').textContent=(improved?'↓ ':'↑ ')+Math.abs(pct).toFixed(1)+'%';
+  document.getElementById('r-bann').textContent=improved
+    ? `✦ 10-yr death risk dropped from ${(popRisk*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(ageA)}-year-old's risk`
+    : `⚠ 10-yr death risk increased from ${(popRisk*100).toFixed(2)}% → ${(adjAfter*100).toFixed(2)}% — equivalent to a ${Math.round(ageA)}-year-old's risk`;
   // Remove any previous default note, then add fresh one if needed
   const oldNote=document.getElementById('defaults-note');
   if(oldNote) oldNote.remove();
@@ -527,11 +579,16 @@ function calcThrive(){
     document.getElementById('r-bann').after(note);
   }
 
-  // Personalization
+  // Personalization — different wording for improved vs worsened
   const greet=name?name+',':'Your results:';
   document.getElementById('per-eye').textContent=(name?name.toUpperCase()+' · ':'')+'YOUR RESULTS';
-  document.getElementById('per-msg').innerHTML=`${greet}<br>Your improvements reduced your estimated mortality risk by <strong>${pct.toFixed(0)}%</strong>. The strongest contributor was your <strong>${bigKey}</strong> improvement. At your current pace, your fitness profile resembles someone approximately <strong>${ty.toFixed(1)} years younger</strong>.`;
-  document.getElementById('per-contrib').innerHTML=`Biggest contributor: <span>${bigKey}</span> (↓${bigPct.toFixed(1)}% risk) &nbsp;·&nbsp; Risk ratio: <span>${ratio.toFixed(3)}</span>`;
+  if(improved){
+    document.getElementById('per-msg').innerHTML=`${greet}<br>Your improvements reduced your estimated mortality risk by <strong>${Math.abs(pct).toFixed(0)}%</strong>. The strongest contributor was your <strong>${bigKey}</strong> improvement. At your current pace, your fitness profile resembles someone approximately <strong>${ty.toFixed(1)} years younger</strong>.`;
+    document.getElementById('per-contrib').innerHTML=`Biggest contributor: <span>${bigKey}</span> (↓${Math.abs(bigPct).toFixed(1)}% risk) &nbsp;·&nbsp; Risk ratio: <span>${ratio.toFixed(3)}</span>`;
+  } else {
+    document.getElementById('per-msg').innerHTML=`${greet}<br>Your current metrics increased your estimated mortality risk by <strong>${Math.abs(pct).toFixed(0)}%</strong>. The largest contributing factor was <strong>${bigKey}</strong>. Addressing this metric is the most direct path to improving your longevity profile.`;
+    document.getElementById('per-contrib').innerHTML=`Largest risk factor: <span>${bigKey}</span> (↑${Math.abs(bigPct).toFixed(1)}% risk) &nbsp;·&nbsp; Risk ratio: <span>${ratio.toFixed(3)}</span>`;
+  }
   document.getElementById('personal').classList.add('show');
 
   // Opportunity + print
@@ -646,6 +703,78 @@ function doPrint(){
   let fr=document.getElementById('_pf');
   if(!fr){fr=document.createElement('iframe');fr.id='_pf';fr.style.cssText='position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:0';document.body.appendChild(fr);}
   fr.srcdoc=html;
+}
+
+// ── TABS ──
+function switchTab(tab){
+  document.getElementById('tab-calc').classList.toggle('active', tab==='calc');
+  document.getElementById('tab-feedback').classList.toggle('active', tab==='feedback');
+  document.querySelector('.page > .prog-wrap').style.display = tab==='calc'?'':'none';
+  document.querySelector('.thrive-intro').style.display = tab==='calc'?'':'none';
+  document.querySelector('.layout').style.display = tab==='calc'?'grid':'none';
+  document.getElementById('feedback-page').style.display = tab==='feedback'?'block':'none';
+}
+
+// ── FEEDBACK ──
+async function submitFeedback(){
+  const name=document.getElementById('fb-name').value.trim();
+  const message=document.getElementById('fb-message').value.trim();
+  const successEl=document.getElementById('fb-success');
+  const errorEl=document.getElementById('fb-error');
+  successEl.style.display='none';
+  errorEl.style.display='none';
+  if(!name||!message){errorEl.textContent='Please enter your name and feedback.';errorEl.style.display='block';return;}
+  try{
+    const res=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,message})});
+    const data=await res.json();
+    if(data.success){
+      successEl.style.display='block';
+      document.getElementById('fb-name').value='';
+      document.getElementById('fb-message').value='';
+    } else {
+      errorEl.textContent=data.error||'Something went wrong.';
+      errorEl.style.display='block';
+    }
+  }catch(e){
+    errorEl.textContent='Could not connect. Please try again.';
+    errorEl.style.display='block';
+  }
+}
+
+function checkPassword(){
+  const pw=document.getElementById('admin-pw').value;
+  document.getElementById('pw-error').style.display='none';
+  if(pw==='thrive years'){
+    document.getElementById('admin-locked').style.display='none';
+    document.getElementById('admin-unlocked').style.display='block';
+    loadAllFeedback();
+  } else {
+    document.getElementById('pw-error').style.display='block';
+  }
+}
+
+async function loadAllFeedback(){
+  const listEl=document.getElementById('fb-list');
+  const countEl=document.getElementById('fb-count');
+  listEl.innerHTML='<div style="font-size:13px;color:var(--muted);font-style:italic">Loading...</div>';
+  try{
+    const res=await fetch('/api/feedback?password=thrive+years');
+    const data=await res.json();
+    if(!Array.isArray(data)){listEl.innerHTML='<div style="font-size:13px;color:#dc2626">Error loading feedback.</div>';return;}
+    countEl.textContent=`${data.length} submission${data.length!==1?'s':''}`;
+    if(data.length===0){listEl.innerHTML='<div style="font-size:13px;color:var(--muted);font-style:italic;text-align:center;padding:20px 0">No feedback submitted yet.</div>';return;}
+    listEl.innerHTML=data.slice().reverse().map(f=>`
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:13px;font-weight:600;color:var(--navy)">${f.name}</span>
+          <span style="font-size:11px;color:var(--muted)">${new Date(f.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+        </div>
+        <p style="font-size:13px;color:var(--navy);line-height:1.6;margin:0">${f.message}</p>
+      </div>
+    `).join('');
+  }catch(e){
+    listEl.innerHTML='<div style="font-size:13px;color:#dc2626">Could not load feedback.</div>';
+  }
 }
 </script>
 </body>
