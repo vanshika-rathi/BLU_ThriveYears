@@ -49,5 +49,18 @@ app.get('/api/feedback', (req, res) => {
   res.json(loadFeedback());
 });
 
+// DELETE /api/feedback/:id — delete a single entry (password protected)
+app.delete('/api/feedback/:id', (req, res) => {
+  const { password } = req.query;
+  if (password !== 'thrive years') {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const id = parseInt(req.params.id);
+  let data = loadFeedback();
+  data = data.filter(f => f.id !== id);
+  saveFeedback(data);
+  res.json({ success: true });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Thrive Years running → http://localhost:${PORT}`));

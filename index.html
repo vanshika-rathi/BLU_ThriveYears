@@ -764,16 +764,36 @@ async function loadAllFeedback(){
     countEl.textContent=`${data.length} submission${data.length!==1?'s':''}`;
     if(data.length===0){listEl.innerHTML='<div style="font-size:13px;color:var(--muted);font-style:italic;text-align:center;padding:20px 0">No feedback submitted yet.</div>';return;}
     listEl.innerHTML=data.slice().reverse().map(f=>`
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:14px 16px" id="fb-${f.id}">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <span style="font-size:13px;font-weight:600;color:var(--navy)">${f.name}</span>
-          <span style="font-size:11px;color:var(--muted)">${new Date(f.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:11px;color:var(--muted)">${new Date(f.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span>
+            <button onclick="deleteFeedback(${f.id})" style="background:none;border:1px solid #fecaca;border-radius:7px;padding:3px 8px;font-size:11px;color:#dc2626;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">Delete</button>
+          </div>
         </div>
         <p style="font-size:13px;color:var(--navy);line-height:1.6;margin:0">${f.message}</p>
       </div>
     `).join('');
   }catch(e){
     listEl.innerHTML='<div style="font-size:13px;color:#dc2626">Could not load feedback.</div>';
+  }
+}
+
+async function deleteFeedback(id){
+  if(!confirm('Delete this feedback?')) return;
+  try{
+    const res=await fetch(`/api/feedback/${id}?password=thrive+years`,{method:'DELETE'});
+    const data=await res.json();
+    if(data.success){
+      document.getElementById(`fb-${id}`)?.remove();
+      const listEl=document.getElementById('fb-list');
+      const remaining=listEl.querySelectorAll('[id^="fb-"]').length;
+      document.getElementById('fb-count').textContent=`${remaining} submission${remaining!==1?'s':''}`;
+      if(remaining===0) listEl.innerHTML='<div style="font-size:13px;color:var(--muted);font-style:italic;text-align:center;padding:20px 0">No feedback submitted yet.</div>';
+    }
+  }catch(e){
+    alert('Could not delete. Please try again.');
   }
 }
 </script>
