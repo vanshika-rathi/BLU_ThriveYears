@@ -1,65 +1,80 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// ── FEEDBACK STORAGE ──
-const FEEDBACK_FILE = path.join(__dirname, 'feedback.json');
-
-function loadFeedback() {
-  try {
-    if (fs.existsSync(FEEDBACK_FILE)) {
-      return JSON.parse(fs.readFileSync(FEEDBACK_FILE, 'utf8'));
-    }
-  } catch(e) {}
-  return [];
-}
-
-function saveFeedback(data) {
-  try { fs.writeFileSync(FEEDBACK_FILE, JSON.stringify(data, null, 2)); } catch(e) {}
-}
+// ── SUPABASE CONFIG ──
+const SUPABASE_URL = 'https://wowbftfeugazcmdtxtqo.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indvd2JmdGZldWdhemNtZHR4dHFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1OTM1NjAsImV4cCI6MjA5NjE2OTU2MH0.rVZD6V26f3Edv8OZEUN-leh6o70Pi1GUdxKNIa2GNis';
+const HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SUPABASE_KEY,
+  'Authorization': `Bearer ${SUPABASE_KEY}`
+};
 
 // POST /api/feedback — submit new feedback
-app.post('/api/feedback', (req, res) => {
+app.post('/api/feedback', async (req, res) => {
   const { name, message } = req.body;
   if (!name || !name.trim() || !message || !message.trim()) {
     return res.status(400).json({ error: 'Name and message are required.' });
   }
-  const data = loadFeedback();
-  const entry = {
-    id: Date.now(),
-    name: name.trim(),
-    message: message.trim(),
-    date: new Date().toISOString()
-  };
-  data.push(entry);
-  saveFeedback(data);
-  res.json({ success: true });
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/feedback`, {
+      method: 'POST',
+      headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ name: name.trim(), message: message.trim() })
+    });
+    if (!response.ok) {
+      const err = await response.text();
+      console.error('Supabase error:', err);
+      return res.status(500).json({ error: 'Failed to save feedback.' });
+    }
+    res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Server error.' });
+  }
 });
 
 // GET /api/feedback — retrieve all feedback (password protected)
-app.get('/api/feedback', (req, res) => {
+app.get('/api/feedback', async (req, res) => {
   const { password } = req.query;
-  if (password !== 'thrive years') {
+  if (password !== 'thriveyears') {
     return res.status(401).json({ error: 'Incorrect password.' });
   }
-  res.json(loadFeedback());
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/feedback?select=*&order=created_at.asc`, {
+      headers: HEADERS
+    });
+    const data = await response.json();
+    res.json(data);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Server error.' });
+  }
 });
 
 // DELETE /api/feedback/:id — delete a single entry (password protected)
-app.delete('/api/feedback/:id', (req, res) => {
+app.delete('/api/feedback/:id', async (req, res) => {
   const { password } = req.query;
-  if (password !== 'thrive years') {
+  if (password !== 'thriveyears') {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  const id = parseInt(req.params.id);
-  let data = loadFeedback();
-  data = data.filter(f => f.id !== id);
-  saveFeedback(data);
-  res.json({ success: true });
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/feedback?id=eq.${req.params.id}`, {
+      method: 'DELETE',
+      headers: HEADERS
+    });
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to delete.' });
+    }
+    res.json({ success: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Server error.' });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
