@@ -758,7 +758,7 @@ async function loadAllFeedback(){
   const countEl=document.getElementById('fb-count');
   listEl.innerHTML='<div style="font-size:13px;color:var(--muted);font-style:italic">Loading...</div>';
   try{
-    const res=await fetch('/api/feedback?password=thrive+years');
+    const res=await fetch('/api/feedback?password=thriveyears');
     const data=await res.json();
     if(!Array.isArray(data)){listEl.innerHTML='<div style="font-size:13px;color:#dc2626">Error loading feedback.</div>';return;}
     countEl.textContent=`${data.length} submission${data.length!==1?'s':''}`;
@@ -783,7 +783,7 @@ async function loadAllFeedback(){
 async function deleteFeedback(id){
   if(!confirm('Delete this feedback?')) return;
   try{
-    const res=await fetch(`/api/feedback/${id}?password=thrive+years`,{method:'DELETE'});
+    const res=await fetch(`/api/feedback/${id}?password=thriveyears`,{method:'DELETE'});
     const data=await res.json();
     if(data.success){
       document.getElementById(`fb-${id}`)?.remove();
