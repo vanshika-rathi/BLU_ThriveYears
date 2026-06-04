@@ -272,7 +272,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
       <div class="card" style="position:relative">
         <div class="card-lbl"><span></span>Risk Summary</div>
         <div class="mgrid">
-          <div class="tile"><div class="val nv" id="r-popavg">—</div><div class="lbl">Avg 10-yr Death Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Avg 10-yr Death Risk</strong>Out of 100 people your age, roughly how many are expected to die in the next 10 years — the population average for your age group.</div></div></div>
+          <div class="tile"><div class="val nv" id="r-popavg">—</div><div class="lbl">Avg 10-yr Mortality Risk<br><span style="font-size:8px;opacity:.7">for your age group</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Avg 10-yr Mortality Risk</strong>Out of 100 people your age, roughly how many are expected to die in the next 10 years — the population average for your age group.</div></div></div>
           <div class="tile"><div class="val nv" id="r-before">—</div><div class="lbl">Your 10-yr Risk Before<br><span style="font-size:8px;opacity:.7">population baseline</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Your Risk Before</strong>Your estimated 10-year mortality risk based on your original fitness metrics, relative to the population average for your age.</div></div></div>
           <div class="tile"><div class="val" id="r-after">—</div><div class="lbl">Your 10-yr Risk After<br><span style="font-size:8px;opacity:.7">with improved fitness</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Your Risk After</strong>Your new estimated 10-year mortality risk after fitness improvements. The lower this is, the better.</div></div></div>
           <div class="tile"><div class="val" id="r-ratio">—</div><div class="lbl">Relative Risk Ratio<br><span style="font-size:8px;opacity:.7">after ÷ before</span></div><div class="tip-wrap"><button class="info-btn">ℹ</button><div class="tooltip"><strong>Relative Risk Ratio</strong>Your risk after divided by your risk before. Below 1.0 means risk went down — e.g. 0.72 means 28% lower risk.</div></div></div>
@@ -673,7 +673,7 @@ function doPrint(){
   <div class="cols">
     <div class="sec">
       <div class="st">Risk Summary</div>
-      <div class="sr"><span class="sl">Avg 10-yr Death Risk</span><span class="sv">${rPA}</span></div>
+      <div class="sr"><span class="sl">Avg 10-yr Mortality Risk</span><span class="sv">${rPA}</span></div>
       <div class="sr"><span class="sl">Your Risk Before</span><span class="sv">${rB}</span></div>
       <div class="sr"><span class="sl">Your Risk After</span><span class="sv">${rA}</span></div>
       <div class="sr"><span class="sl">Relative Risk Ratio</span><span class="sv">${rR}</span></div>
