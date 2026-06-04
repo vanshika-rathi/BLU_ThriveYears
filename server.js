@@ -46,13 +46,15 @@ app.get('/api/feedback', async (req, res) => {
   }
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/feedback?select=*&order=created_at.asc`, {
-      headers: HEADERS
+      headers: { ...HEADERS, 'Accept': 'application/json' }
     });
-    const data = await response.json();
+    const text = await response.text();
+    console.log('Supabase GET response:', response.status, text.substring(0, 200));
+    const data = JSON.parse(text);
     res.json(data);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Server error.' });
+    console.error('GET feedback error:', e);
+    res.status(500).json({ error: 'Server error: ' + e.message });
   }
 });
 
