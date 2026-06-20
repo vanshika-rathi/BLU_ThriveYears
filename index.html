@@ -231,7 +231,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 3
         </div>
       </div>
       <div class="mrow">
-        <div class="mlbl">✊ Grip Strength (lbs)</div>
+        <div class="mlbl">✊ Grip Strength (Dominant Hand - lbs)</div>
         <div class="bagrid">
           <input class="inp" id="t-gsb" type="number" placeholder="e.g. 68">
           <input class="inp after" id="t-gsa" type="number" placeholder="e.g. 84">
@@ -382,88 +382,101 @@ function populateOpp(ty, afterVals, avgs){
   const oppKey=Object.keys(gaps).reduce((a,b)=>gaps[a]>gaps[b]?a:b);
   const gap=gaps[oppKey];
 
-  // Tone based on ThriveYears gained — 7 levels for more personalized output
-  const tone = ty>=7?'elite': ty>=5?'exceptional': ty>=3.5?'strong': ty>=2?'progressing': ty>=1?'building': ty>=0.3?'starting':'baseline';
+  // Tone based on ThriveYears gained/lost — 10 mirrored bands (5 positive, 5 negative)
+  const tone =
+    ty>=7?'elite':
+    ty>=5?'exceptional':
+    ty>=3.5?'strong':
+    ty>=2?'progressing':
+    ty>=0?'building':
+    ty>=-2?'declining-mild':
+    ty>=-3.5?'declining-progressing':
+    ty>=-5?'declining-strong':
+    ty>=-7?'declining-exceptional':
+    'declining-elite';
 
-  // Tone-based opening line
+  // Tone-based opening line — distinct advice for every band, positive and negative
   const openingMap={
     elite:       `With ${ty.toFixed(1)} Thrive Years gained, this client has achieved elite-level longevity progress — few people reach this threshold. The priority now is protecting and compounding these gains over decades.`,
     exceptional: `With ${ty.toFixed(1)} Thrive Years gained, this client has made exceptional progress across their fitness profile. The focus shifts to sustaining momentum and fine-tuning the remaining opportunity below.`,
     strong:      `With ${ty.toFixed(1)} Thrive Years gained, this client is on a strong longevity trajectory. Targeted work on the key area below will push results into the exceptional range.`,
     progressing: `With ${ty.toFixed(1)} Thrive Years gained, this client is making real, measurable progress. Consistent effort in the area below will meaningfully accelerate the next phase.`,
-    building:    `With ${ty.toFixed(1)} Thrive Year gained, this client is beginning to build longevity momentum. The opportunity below represents the highest-leverage next step.`,
-    starting:    `Initial metrics show ${ty.toFixed(1)} Thrive Years gained — a meaningful start. Focused improvement in the area below can significantly shift the risk profile within 90 days.`,
-    baseline:    `Current metrics show minimal Thrive Years gained so far. This is common at the start of a program — the opportunity below is the clearest lever for driving early results.`,
+    building:    `With ${ty.toFixed(1)} Thrive Years gained, this client is beginning to build longevity momentum. The opportunity below represents the highest-leverage next step.`,
+    'declining-mild':         `This client's metrics show a slight increase in mortality risk (${Math.abs(ty).toFixed(1)} Thrive Years). This is an early signal, not a setback — small, consistent changes now will reverse the trend quickly.`,
+    'declining-progressing':  `This client's metrics show a moderate increase in mortality risk (${Math.abs(ty).toFixed(1)} Thrive Years). The trend is worth addressing directly — a focused plan over the next 60–90 days should turn this around.`,
+    'declining-strong':       `This client's metrics show a clear downward trend in their longevity profile (${Math.abs(ty).toFixed(1)} Thrive Years). This warrants real attention — a structured, prioritized plan is the right next step rather than broad changes everywhere at once.`,
+    'declining-exceptional':  `This client's metrics show a significant increase in mortality risk (${Math.abs(ty).toFixed(1)} Thrive Years). This level of change is substantial enough to merit a closer look at what shifted, and a clear, prioritized plan going forward.`,
+    'declining-elite':        `This client's metrics show a substantial increase in mortality risk (${Math.abs(ty).toFixed(1)} Thrive Years). This is significant enough to treat as a priority — a thorough review of all four metrics with the personal trainer is recommended before setting next steps.`,
   };
 
-  // Metric-specific dynamic content
+  // Metric-specific action content (Actions stay specific to the priority metric;
+  // Assessment below is generic across all four)
   const metricContent={
     'VO₂ Max':{
-      assess:(gap>0.15?
-        `VO₂ max is ${(gap*100).toFixed(0)}% below the population average for this age group — cardiorespiratory fitness is the highest-leverage metric and the clearest near-term priority.`:
-        gap>0?
-        `VO₂ max is slightly below the age-group average. Even modest improvements here carry the strongest per-unit mortality risk reduction of any metric.`:
-        `VO₂ max is at or above the population average — the goal now is to maintain this level and continue gradual improvement.`
-      ),
-      actions:[
-        `Build up to 3–4 Zone 2 sessions per week (30–45 min at 60–70% max heart rate) — start with 2 if currently sedentary`,
-        `Add one interval session weekly: 4 rounds of 4 min high effort / 3 min recovery — most effective for VO₂ gains`,
-        `Re-test VO₂ max or complete a 12-min Cooper Run Test at the 90-day mark to quantify progress`,
-      ]
+      actions:(gap>0?[
+        `Build up to 3–4 cardio sessions per week at a moderate, sustainable pace — start with 2 if currently sedentary`,
+        `Add one slightly higher-effort session weekly, with full recovery between efforts`,
+        `Check in with your personal trainer at the 90-day mark to reassess VO₂ max and adjust your training and nutrition plan`,
+      ]:[
+        `Maintain current cardio frequency and intensity — this is a maintenance dose, not a ramp-up`,
+        `Keep variety in your cardio routine to stay engaged and protect this gain long term`,
+        `Check in with your personal trainer at your next regular visit for nutrition and fitness advice to keep this on track`,
+      ])
     },
     'Visceral Fat':{
-      assess:(gap>0.2?
-        `Visceral fat is ${(gap*100).toFixed(0)}% above the age-group average — this is the primary metabolic risk driver and the clearest opportunity for near-term improvement.`:
-        gap>0?
-        `Visceral fat is modestly elevated above the population average. Even a 1–2 lb reduction produces measurable improvements across cardiovascular and inflammatory markers.`:
-        `Visceral fat is at or below the age-group average — maintaining this through diet and activity is the priority.`
-      ),
-      actions:[
-        `Reduce added sugar to under 25g/day and eliminate refined carbohydrates from main meals`,
-        `Add 30-min fasted morning walks 4–5 days per week — shown to preferentially reduce visceral fat`,
-        `Re-assess visceral fat via DEXA scan or waist circumference at the 90-day mark`,
-      ]
+      actions:(gap>0?[
+        `Reduce added sugar and refined carbohydrates in main meals`,
+        `Add regular daily movement, such as a short walk most days of the week`,
+        `Check in with your personal trainer at the 90-day mark for updated nutrition and fitness guidance based on your progress`,
+      ]:[
+        `Keep current eating habits consistent — this is about holding steady, not restricting further`,
+        `Continue regular daily movement as a maintenance habit`,
+        `Check in with your personal trainer at your next regular visit for nutrition and fitness advice to help maintain this`,
+      ])
     },
     'Lean Muscle':{
-      assess:(gap>0.1?
-        `Lean muscle mass is ${(gap*100).toFixed(0)}% below the population average for this age and weight — building muscle now creates compounding longevity benefits.`:
-        gap>0?
-        `Lean muscle mass is slightly below the age-group average. Targeted resistance training and protein intake will close this gap efficiently.`:
-        `Lean muscle mass is at or above the age-group average — the focus is on maintenance and preventing age-related loss.`
-      ),
-      actions:[
-        `3 resistance training sessions per week — prioritize compound lifts (squat, deadlift, press, row)`,
-        `Increase protein intake to 0.8–1.0g per lb of body weight daily, with protein at every meal`,
-        `Track lean mass via DEXA at 90-day intervals — expect 2–4 lb gains in the first quarter`,
-      ]
+      actions:(gap>0?[
+        `Add 2–3 resistance training sessions per week, focusing on major muscle groups`,
+        `Increase protein intake slightly and aim to include it at every meal`,
+        `Meet with your personal trainer every 90 days for nutrition and fitness advice to keep muscle gains on track`,
+      ]:[
+        `Maintain current resistance training frequency to preserve this gain`,
+        `Keep protein intake consistent at its current level`,
+        `Meet with your personal trainer at your next regular check-in for nutrition and fitness advice to help maintain this`,
+      ])
     },
     'Grip Strength':{
-      assess:(gap>0.15?
-        `Grip strength is ${(gap*100).toFixed(0)}% below the age-group average — a reliable indicator of overall musculoskeletal health and an independent mortality risk factor.`:
-        gap>0?
-        `Grip strength is slightly below average. This metric responds quickly to training — measurable gains are typically seen within 6–8 weeks.`:
-        `Grip strength is at or above average — continue resistance training to maintain this as a longevity asset.`
-      ),
-      actions:[
-        `Add 2 sets of farmer carries and 30-second dead hangs to each resistance session`,
-        `Use a grip strengthener for 5–10 minutes daily — increase resistance every two weeks`,
-        `Re-test with a hand dynamometer at the 60-day mark`,
-      ]
+      actions:(gap>0?[
+        `Add simple carrying and gripping exercises to each resistance session`,
+        `Use a grip strengthener for a few minutes daily, increasing resistance gradually`,
+        `Meet with your personal trainer at the 60-day mark for nutrition and fitness advice to keep this progress on track`,
+      ]:[
+        `Maintain current resistance training frequency — 2–3 sessions per week with compound pulling and carrying movements`,
+        `Add periodic carrying and gripping work as a maintenance dose, not a ramp-up — consistency matters more than progression here`,
+        `Meet with your personal trainer at your next regular check-in for nutrition and fitness advice to help maintain this`,
+      ])
     }
   };
 
   const content=metricContent[oppKey];
   document.getElementById('assess-list').innerHTML='';
   document.getElementById('action-list').innerHTML='';
+
+  // Opening line — sets overall tone, distinct per band
   addBullet('assess-list', openingMap[tone]);
-  addBullet('assess-list', content.assess);
-  if(tone==='elite'||tone==='exceptional'||tone==='strong'){
-    addBullet('assess-list',
-      tone==='elite'
-        ? 'At this level, marginal gains matter — precision in sleep, recovery, and nutrition consistency will protect and extend these results.'
-        : 'The data supports a maintenance and optimization phase — consistency matters more than dramatic changes at this stage.'
-    );
-  }
+
+  // Generic, non-prescriptive standing for all four metrics (not workout-specific)
+  const genericStanding=(metric,g)=>{
+    const label = g>0.15 ? 'a clear opportunity area' : g>0 ? 'slightly below where we\'d like it' : 'at or above where we\'d like it';
+    return `${metric} is ${label} relative to the age-group average.`;
+  };
+  ['VO₂ Max','Lean Muscle','Visceral Fat','Grip Strength'].forEach(metric=>{
+    addBullet('assess-list', genericStanding(metric, gaps[metric]));
+  });
+
+  // Name the priority metric last
+  addBullet('assess-list', `Of the four, ${oppKey} represents the biggest opportunity for improvement right now.`);
+
   content.actions.forEach(t=>addBullet('action-list',t));
 }
 
@@ -516,9 +529,11 @@ function calcThrive(){
   const getBL=a=>{const k=Object.keys(BL).map(Number);return BL[k.reduce((p,c)=>Math.abs(c-a)<Math.abs(p-a)?c:p)];};
 
   // VO2 in mL/lb/min → β = -0.088 (= ln(0.87)/3.5 / 0.4536)
-  // Muscle/Fat as % of body weight → -0.015 and +0.008
+  // Muscle/Fat as % of body weight → -0.015 and +0.012 (base, before age scaling)
   // Grip in lbs → -0.014 (= ln(0.97)/2.2046)
-  const risk=(vo2,m,f,g)=>Math.exp(-0.088*vo2+(-0.015*(100/bw))*m+(0.008*(100/bw))*f+(-0.014)*g);
+  // Age-based visceral fat risk multiplier: 1x under 40, 1.5x for 40-49, 2x for 50+
+  const vfAgeMultiplier = age>=50 ? 2 : age>=40 ? 1.5 : 1;
+  const risk=(vo2,m,f,g)=>Math.exp(-0.088*vo2+(-0.015*(100/bw))*m+(0.012*vfAgeMultiplier*(100/bw))*f+(-0.014)*g);
 
   const r2age=r=>{
     const ages=Object.keys(BL).map(Number).sort((a,b)=>a-b);
@@ -539,7 +554,7 @@ function calcThrive(){
   const adjAfter=popRisk*ratio;
   const ageB=r2age(popRisk);
   const ageA=r2age(adjAfter);
-  const ty=Math.max(0,ageB-ageA);
+  const ty=ageB-ageA; // signed: positive = improvement, negative = decline
 
   // Biggest contributor when improved / biggest risk factor when worsened
   const contribs={
